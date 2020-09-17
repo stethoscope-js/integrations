@@ -1,0 +1,23 @@
+{
+  "name": "@stethoscope/integrations",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stethoscope-js/integrations.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stethoscope-js/integrations/issues"
+  },
+  "homepage": "https://github.com/stethoscope-js/integrations#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
