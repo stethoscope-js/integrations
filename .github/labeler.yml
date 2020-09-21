@@ -1,0 +1,29 @@
+config:
+  - ./*
+tooling:
+  - tooling/**/*.*
+assets:
+  - static/**/*.*
+tests:
+  - any: ["src/**/*.spec.js", "src/**/*.spec.ts", "cypress/**/*"]
+package:
+  - any: ["package.json", "package-lock.json"]
+source:
+  - src/**/*
+
+google-fit:
+  - src/google-fit/**/*.*
+oura-ring:
+  - src/oura-ring/**/*.*
+rescuetime:
+  - src/rescuetime/**/*.*
+spotify:
+  - src/spotify/**/*.*
+wakatime:
+  - src/wakatime/**/*.*
+last-fm:
+  - src/last-fm/**/*.*
+pocket-casts:
+  - src/pocket-casts/**/*.*
+clockify:
+  - src/clockify/**/*.*
