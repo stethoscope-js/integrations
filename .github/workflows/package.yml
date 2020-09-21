@@ -18,7 +18,7 @@ jobs:
       - name: Build TypeScript
         run: npm run build
       - name: Update package.json
-        run: npx ts-node update-package.ts
+        run: npx ts-node tooling/update-package.ts
       - name: Run tests
         run: npm run test
       - name: Authentication npm
