@@ -1,3 +1,3 @@
-describe("example", () => {
+test("example", () => {
   expect("hello").toBe("hello");
 });
