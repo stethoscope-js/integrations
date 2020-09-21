@@ -1,7 +1,12 @@
 {
   "name": "@stethoscope/integrations",
   "version": "0.0.0",
-  "description": "",
+  "description": "Node.js/TypeScript packages to track your life data using Stethoscope",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
