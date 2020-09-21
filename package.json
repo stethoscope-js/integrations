@@ -16,7 +16,5 @@
     "url": "https://github.com/stethoscope-js/integrations/issues"
   },
   "homepage": "https://github.com/stethoscope-js/integrations#readme",
-  "devDependencies": {
-    "lerna": "^3.22.1"
-  }
+  "devDependencies": {}
 }
