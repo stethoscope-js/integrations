@@ -1,3 +1,15 @@
+# [v1.4.0](https://github.com/stethoscope-js/integrations/compare/v1.3.0...v1.4.0) (2020-09-22)
+
+## ✨ New features
+- [`5c16aeb`](https://github.com/stethoscope-js/integrations/commit/5c16aeb)  Add Twitter integration
+
+- [`ba859f9`](https://github.com/stethoscope-js/integrations/commit/ba859f9)  Add twitter likes
+
+- [`5efde40`](https://github.com/stethoscope-js/integrations/commit/5efde40)  Export Twitter daily
+
+## ♻️ Updates
+- [`3b655f4`](https://github.com/stethoscope-js/integrations/commit/3b655f4)  Export summary helpers
+
 # [v1.3.0](https://github.com/stethoscope-js/integrations/compare/v1.2.1...v1.3.0) (2020-09-22)
 
 ## ✨ New features
