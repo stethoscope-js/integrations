@@ -19,7 +19,7 @@
     "url": "git+https://github.com/stethoscope-js/integrations.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Anand Chowdhary <mail@anandchowdhary.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/stethoscope-js/integrations/issues"
