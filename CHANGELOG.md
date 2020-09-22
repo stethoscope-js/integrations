@@ -1,3 +1,8 @@
+# [v1.1.6](https://github.com/stethoscope-js/integrations/compare/v1.1.5...v1.1.6) (2020-09-22)
+
+## ♻️ Updates
+- [`02c19d0`](https://github.com/stethoscope-js/integrations/commit/02c19d0)  Change config to stethoscope
+
 # [v1.1.5](https://github.com/stethoscope-js/integrations/compare/v1.1.4...v1.1.5) (2020-09-22)
 
 ## 🐛 Bug fixes
