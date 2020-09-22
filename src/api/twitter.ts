@@ -74,7 +74,6 @@ export const daily = async () => {
   console.log("Twitter: Added data");
   console.log("Twitter: Added daily summaries");
 };
-daily();
 
 export const summary = async () => {
   for await (const typeName of ["twitter-tweets", "twitter-likes"]) {
