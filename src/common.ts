@@ -4,7 +4,13 @@ cosmicSync("stethoscope");
 
 export const integrationConfig = (service: string) => {
   const configs: { [index: string]: { [index: string]: boolean } } = config("integrations") || {};
-  return configs[service] || {};
+  const items = configs[service] || {};
+  if (items.all) {
+    Object.keys(items).forEach((key) => {
+      items[key] = true;
+    });
+  }
+  return items;
 };
 
 export const write = async (name: string, contents: any) => {
