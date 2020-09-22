@@ -1,7 +1,7 @@
 import { cosmicSync, config } from "@anandchowdhary/cosmic";
 import axios from "axios";
 import { join } from "path";
-import { write } from "../common";
+import { integrationConfig, write } from "../common";
 import PromisePool from "es6-promise-pool";
 import dayjs from "dayjs";
 import { readdir, readJson, pathExists, lstat } from "fs-extra";
@@ -16,106 +16,114 @@ cosmicSync("stethoscope");
 
 const updateOuraDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
-  const {
-    data: healthData,
-  }: {
-    data: {
-      age: number;
-      weight: number;
-      height: number;
-      gender: string;
-      email: string;
-    };
-  } = await axios.get(`https://api.ouraring.com/v1/userinfo?access_token=${config("ouraPersonalAccessToken")}`);
-  await write(
-    join(
-      ".",
-      "data",
-      "oura-weight",
-      "daily",
-      dayjs(formattedDate).format("YYYY"),
-      dayjs(formattedDate).format("MM"),
-      dayjs(formattedDate).format("DD"),
-      "sessions.json"
-    ),
-    JSON.stringify({ weight: healthData.weight }, null, 2)
-  );
-  console.log("Oura: Added summary data");
-  const {
-    data: sleepData,
-  }: {
-    data: {
-      sleep: Array<{ summary_date: string }>;
-    };
-  } = await axios.get(
-    `https://api.ouraring.com/v1/sleep?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-      "ouraPersonalAccessToken"
-    )}`
-  );
-  console.log("Oura: Added sleep data");
-  await write(
-    join(
-      ".",
-      "data",
-      "oura-sleep",
-      "daily",
-      dayjs(formattedDate).format("YYYY"),
-      dayjs(formattedDate).format("MM"),
-      dayjs(formattedDate).format("DD"),
-      "sessions.json"
-    ),
-    JSON.stringify(sleepData.sleep, null, 2)
-  );
-  const {
-    data: readinessData,
-  }: {
-    data: {
-      readiness: Array<{ summary_date: string }>;
-    };
-  } = await axios.get(
-    `https://api.ouraring.com/v1/readiness?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-      "ouraPersonalAccessToken"
-    )}`
-  );
-  console.log("Oura: Added readiness data");
-  await write(
-    join(
-      ".",
-      "data",
-      "oura-readiness",
-      "daily",
-      dayjs(formattedDate).format("YYYY"),
-      dayjs(formattedDate).format("MM"),
-      dayjs(formattedDate).format("DD"),
-      "sessions.json"
-    ),
-    JSON.stringify(readinessData.readiness, null, 2)
-  );
-  const {
-    data: activityData,
-  }: {
-    data: {
-      activity: Array<{ summary_date: string }>;
-    };
-  } = await axios.get(
-    `https://api.ouraring.com/v1/activity?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-      "ouraPersonalAccessToken"
-    )}`
-  );
-  console.log("Oura: Added activity data");
-  await write(
-    join(
-      ".",
-      "data",
-      "oura-activity",
-      "daily",
-      dayjs(formattedDate).format("YYYY"),
-      dayjs(formattedDate).format("MM"),
-      dayjs(formattedDate).format("DD"),
-      "sessions.json"
-    ),
-    JSON.stringify(activityData.activity, null, 2)
-  );
+  if (integrationConfig("oura-ring").weight) {
+    const {
+      data: healthData,
+    }: {
+      data: {
+        age: number;
+        weight: number;
+        height: number;
+        gender: string;
+        email: string;
+      };
+    } = await axios.get(`https://api.ouraring.com/v1/userinfo?access_token=${config("ouraPersonalAccessToken")}`);
+    await write(
+      join(
+        ".",
+        "data",
+        "oura-weight",
+        "daily",
+        dayjs(formattedDate).format("YYYY"),
+        dayjs(formattedDate).format("MM"),
+        dayjs(formattedDate).format("DD"),
+        "sessions.json"
+      ),
+      JSON.stringify({ weight: healthData.weight }, null, 2)
+    );
+    console.log("Oura: Added summary data");
+  }
+  if (integrationConfig("oura-ring").sleep) {
+    const {
+      data: sleepData,
+    }: {
+      data: {
+        sleep: Array<{ summary_date: string }>;
+      };
+    } = await axios.get(
+      `https://api.ouraring.com/v1/sleep?start=${formattedDate}&end=${formattedDate}&access_token=${config(
+        "ouraPersonalAccessToken"
+      )}`
+    );
+    console.log("Oura: Added sleep data");
+    await write(
+      join(
+        ".",
+        "data",
+        "oura-sleep",
+        "daily",
+        dayjs(formattedDate).format("YYYY"),
+        dayjs(formattedDate).format("MM"),
+        dayjs(formattedDate).format("DD"),
+        "sessions.json"
+      ),
+      JSON.stringify(sleepData.sleep, null, 2)
+    );
+  }
+  if (integrationConfig("oura-ring").readiness) {
+    const {
+      data: readinessData,
+    }: {
+      data: {
+        readiness: Array<{ summary_date: string }>;
+      };
+    } = await axios.get(
+      `https://api.ouraring.com/v1/readiness?start=${formattedDate}&end=${formattedDate}&access_token=${config(
+        "ouraPersonalAccessToken"
+      )}`
+    );
+    console.log("Oura: Added readiness data");
+    await write(
+      join(
+        ".",
+        "data",
+        "oura-readiness",
+        "daily",
+        dayjs(formattedDate).format("YYYY"),
+        dayjs(formattedDate).format("MM"),
+        dayjs(formattedDate).format("DD"),
+        "sessions.json"
+      ),
+      JSON.stringify(readinessData.readiness, null, 2)
+    );
+  }
+  if (integrationConfig("oura-ring").activity) {
+    const {
+      data: activityData,
+    }: {
+      data: {
+        activity: Array<{ summary_date: string }>;
+      };
+    } = await axios.get(
+      `https://api.ouraring.com/v1/activity?start=${formattedDate}&end=${formattedDate}&access_token=${config(
+        "ouraPersonalAccessToken"
+      )}`
+    );
+    console.log("Oura: Added activity data");
+    await write(
+      join(
+        ".",
+        "data",
+        "oura-activity",
+        "daily",
+        dayjs(formattedDate).format("YYYY"),
+        dayjs(formattedDate).format("MM"),
+        dayjs(formattedDate).format("DD"),
+        "sessions.json"
+      ),
+      JSON.stringify(activityData.activity, null, 2)
+    );
+  }
 };
 
 export const daily = async () => {

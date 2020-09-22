@@ -1,6 +1,6 @@
 import { cosmicSync, config } from "@anandchowdhary/cosmic";
 import { join } from "path";
-import { write } from "../common";
+import { integrationConfig, write } from "../common";
 import PromisePool from "es6-promise-pool";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
@@ -14,18 +14,20 @@ const client = new WakaTimeClient(config("wakatimeApiKey") || "example");
 const updateWakatimeDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
   console.log("WakaTime: Adding data for", formattedDate);
-  const summary = await client.getMySummary({
-    dateRange: {
-      startDate: formattedDate,
-      endDate: formattedDate,
-    },
-  });
-  if (summary.data.length) {
-    const startDate = dayjs(summary.start).format("YYYY/MM/DD");
-    await write(
-      join(".", "data", "wakatime-time-tracking", "daily", startDate, "daily-summary.json"),
-      JSON.stringify(summary.data, null, 2)
-    );
+  if (integrationConfig("wakatime").summary) {
+    const summary = await client.getMySummary({
+      dateRange: {
+        startDate: formattedDate,
+        endDate: formattedDate,
+      },
+    });
+    if (summary.data.length) {
+      const startDate = dayjs(summary.start).format("YYYY/MM/DD");
+      await write(
+        join(".", "data", "wakatime-time-tracking", "daily", startDate, "daily-summary.json"),
+        JSON.stringify(summary.data, null, 2)
+      );
+    }
   }
 };
 

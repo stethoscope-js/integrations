@@ -1,6 +1,11 @@
-import { cosmicSync } from "@anandchowdhary/cosmic";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import { ensureFile, writeFile } from "fs-extra";
 cosmicSync("stethoscope");
+
+export const integrationConfig = (service: string) => {
+  const configs: { [index: string]: { [index: string]: boolean } } = config("config") || {};
+  return configs[service] || {};
+};
 
 export const write = async (name: string, contents: any) => {
   await ensureFile(name);

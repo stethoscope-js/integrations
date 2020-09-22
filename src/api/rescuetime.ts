@@ -1,7 +1,7 @@
 import { cosmicSync, config } from "@anandchowdhary/cosmic";
 import axios from "axios";
 import { join } from "path";
-import { write } from "../common";
+import { integrationConfig, write } from "../common";
 import PromisePool from "es6-promise-pool";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
@@ -36,77 +36,82 @@ export interface RescueTimeWeeklySummary {
 }
 
 const updateRescueTimeDailyData = async (date: Date) => {
-  const formattedDate = dayjs(date).format("YYYY-MM-DD");
-  console.log("RescueTime: Adding data for", date);
-  const topCategories = (
-    await axios.get(
-      `https://www.rescuetime.com/anapi/data?format=json&key=${config(
-        "rescuetimeApiKey"
-      )}&restrict_kind=category&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
-    )
-  ).data as RescueTimeWeeklySummary;
-  const topCategoriesHeaders = topCategories.row_headers;
-  const topCategoriesItems = topCategories.rows;
-  const topCategoriesData: any = [];
-  topCategoriesItems.forEach((item) => {
-    const details: any = {};
-    topCategoriesHeaders.forEach((header, index) => {
-      details[header] = item[index];
-    });
-    topCategoriesData.push(details);
-  });
-  const topActivities = (
-    await axios.get(
-      `https://www.rescuetime.com/anapi/data?format=json&key=${config(
-        "rescuetimeApiKey"
-      )}&restrict_kind=activity&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
-    )
-  ).data as RescueTimeWeeklySummary;
-  const topActivitiesHeaders = topActivities.row_headers;
-  const topActivitiesItems = topActivities.rows;
-  const topActivitiesData: any = [];
-  topActivitiesItems.forEach((item) => {
-    const details: any = {};
-    topActivitiesHeaders.forEach((header, index) => {
-      details[header] = item[index];
-    });
-    topActivitiesData.push(details);
-  });
-  const topOverview = (
-    await axios.get(
-      `https://www.rescuetime.com/anapi/data?format=json&key=${config(
-        "rescuetimeApiKey"
-      )}&restrict_kind=overview&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
-    )
-  ).data as RescueTimeWeeklySummary;
-  const topOverviewHeaders = topOverview.row_headers;
-  const topOverviewItems = topOverview.rows;
-  const topOverviewData: any = [];
-  topOverviewItems.forEach((item) => {
-    const details: any = {};
-    topOverviewHeaders.forEach((header, index) => {
-      details[header] = item[index];
-    });
-    topOverviewData.push(details);
-  });
-
   const year = dayjs(date).format("YYYY");
   const month = dayjs(date).format("MM");
   const day = dayjs(date).format("DD");
-  await write(
-    join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-categories.json"),
-    JSON.stringify(topCategoriesData, null, 2)
-  );
-  await write(
-    join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-overview.json"),
-    JSON.stringify(topOverviewData, null, 2)
-  );
-  const configItems = config("config");
-  if (configItems.rescueTime && configItems.rescueTime.trackTopActivities)
+  const formattedDate = dayjs(date).format("YYYY-MM-DD");
+
+  if (integrationConfig("rescue-time")["top-categories"]) {
+    console.log("RescueTime: Adding data for", date);
+    const topCategories = (
+      await axios.get(
+        `https://www.rescuetime.com/anapi/data?format=json&key=${config(
+          "rescuetimeApiKey"
+        )}&restrict_kind=category&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
+      )
+    ).data as RescueTimeWeeklySummary;
+    const topCategoriesHeaders = topCategories.row_headers;
+    const topCategoriesItems = topCategories.rows;
+    const topCategoriesData: any = [];
+    topCategoriesItems.forEach((item) => {
+      const details: any = {};
+      topCategoriesHeaders.forEach((header, index) => {
+        details[header] = item[index];
+      });
+      topCategoriesData.push(details);
+    });
+    await write(
+      join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-categories.json"),
+      JSON.stringify(topCategoriesData, null, 2)
+    );
+  }
+  if (integrationConfig("rescue-time")["top-activities"]) {
+    const topActivities = (
+      await axios.get(
+        `https://www.rescuetime.com/anapi/data?format=json&key=${config(
+          "rescuetimeApiKey"
+        )}&restrict_kind=activity&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
+      )
+    ).data as RescueTimeWeeklySummary;
+    const topActivitiesHeaders = topActivities.row_headers;
+    const topActivitiesItems = topActivities.rows;
+    const topActivitiesData: any = [];
+    topActivitiesItems.forEach((item) => {
+      const details: any = {};
+      topActivitiesHeaders.forEach((header, index) => {
+        details[header] = item[index];
+      });
+      topActivitiesData.push(details);
+    });
     await write(
       join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-activities.json"),
       JSON.stringify(topActivitiesData, null, 2)
     );
+  }
+
+  if (integrationConfig("rescue-time").overview) {
+    const topOverview = (
+      await axios.get(
+        `https://www.rescuetime.com/anapi/data?format=json&key=${config(
+          "rescuetimeApiKey"
+        )}&restrict_kind=overview&restrict_begin=${formattedDate}&restrict_end=${formattedDate}`
+      )
+    ).data as RescueTimeWeeklySummary;
+    const topOverviewHeaders = topOverview.row_headers;
+    const topOverviewItems = topOverview.rows;
+    const topOverviewData: any = [];
+    topOverviewItems.forEach((item) => {
+      const details: any = {};
+      topOverviewHeaders.forEach((header, index) => {
+        details[header] = item[index];
+      });
+      topOverviewData.push(details);
+    });
+    await write(
+      join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-overview.json"),
+      JSON.stringify(topOverviewData, null, 2)
+    );
+  }
 };
 
 export const daily = async () => {

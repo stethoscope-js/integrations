@@ -1,6 +1,6 @@
 import { cosmicSync, config } from "@anandchowdhary/cosmic";
 import { google, fitness_v1 } from "googleapis";
-import { write } from "../common";
+import { integrationConfig, write } from "../common";
 import { join } from "path";
 import slugify from "@sindresorhus/slugify";
 import dayjs from "dayjs";
@@ -49,12 +49,13 @@ const saveData = async (data: fitness_v1.Schema$Session[]) => {
     }
   });
   for await (const sessionType of Object.keys(itemsByDateAndType)) {
-    for await (const sessionDate of Object.keys(itemsByDateAndType[sessionType])) {
-      await write(
-        join(".", "data", `google-fit-${sessionType.replace(/_/g, "-")}`, "daily", sessionDate, "sessions.json"),
-        JSON.stringify(itemsByDateAndType[sessionType][sessionDate], null, 2)
-      );
-    }
+    if (integrationConfig("google-fit")[sessionType])
+      for await (const sessionDate of Object.keys(itemsByDateAndType[sessionType])) {
+        await write(
+          join(".", "data", `google-fit-${sessionType.replace(/_/g, "-")}`, "daily", sessionDate, "sessions.json"),
+          JSON.stringify(itemsByDateAndType[sessionType][sessionDate], null, 2)
+        );
+      }
   }
 };
 
