@@ -1,3 +1,8 @@
+# [v1.4.1](https://github.com/stethoscope-js/integrations/compare/v1.4.0...v1.4.1) (2020-09-22)
+
+## ♻️ Updates
+- [`41b81b8`](https://github.com/stethoscope-js/integrations/commit/41b81b8)  Fetch 100 tweets at a time
+
 # [v1.4.0](https://github.com/stethoscope-js/integrations/compare/v1.3.0...v1.4.0) (2020-09-22)
 
 ## ✨ New features
