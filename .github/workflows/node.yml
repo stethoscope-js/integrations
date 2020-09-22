@@ -30,11 +30,3 @@ jobs:
           GIT_AUTHOR_EMAIL: "stethoscope-js@anandchowdhary.com"
           GIT_COMMITTER_NAME: "Stethoscoper"
           GIT_COMMITTER_EMAIL: "stethoscope-js@anandchowdhary.com"
-      - name: Update package.json
-        run: npx ts-node tooling/update-package.ts
-      - name: Authentication npm
-        uses: jgierer12/npm-auth-gpr@v1
-        with:
-          token: ${{ secrets.GH_PAT }}
-      - name: Publish to npm
-        run: npm publish
