@@ -1,3 +1,8 @@
+# [v1.4.2](https://github.com/stethoscope-js/integrations/compare/v1.4.1...v1.4.2) (2020-09-22)
+
+## 🐛 Bug fixes
+- [`e67d4f4`](https://github.com/stethoscope-js/integrations/commit/e67d4f4)  Remove daily execution
+
 # [v1.4.1](https://github.com/stethoscope-js/integrations/compare/v1.4.0...v1.4.1) (2020-09-22)
 
 ## ♻️ Updates
