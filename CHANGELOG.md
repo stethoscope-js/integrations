@@ -1,3 +1,8 @@
+# [v1.1.5](https://github.com/stethoscope-js/integrations/compare/v1.1.4...v1.1.5) (2020-09-22)
+
+## 🐛 Bug fixes
+- [`e111b45`](https://github.com/stethoscope-js/integrations/commit/e111b45)  Add wakatime-client
+
 # [v1.1.4](https://github.com/stethoscope-js/integrations/compare/v1.1.3...v1.1.4) (2020-09-22)
 
 ## ♻️ Updates
