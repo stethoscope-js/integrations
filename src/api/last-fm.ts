@@ -9,7 +9,7 @@ import week from "dayjs/plugin/weekOfYear";
 dayjs.extend(week);
 cosmicSync("life");
 
-const lastFm = new LastFm(config("lastfmApiKey") ?? "example");
+const lastFm = new LastFm(config("lastfmApiKey") || "example");
 
 const fetchTracks = async (date: Date, page = 1) => {
   const LIMIT = 50;
@@ -36,20 +36,12 @@ const getLastFmTracks = async (date: Date, page = 1) => {
     const year = date.format("YYYY");
     const month = date.format("MM");
     const day = date.format("DD");
-    itemsByDate[`${year}/${month}/${day}`] =
-      itemsByDate[`${year}/${month}/${day}`] ?? [];
+    itemsByDate[`${year}/${month}/${day}`] = itemsByDate[`${year}/${month}/${day}`] || [];
     itemsByDate[`${year}/${month}/${day}`].push(item);
   }
   for await (const key of Object.keys(itemsByDate)) {
     await write(
-      join(
-        ".",
-        "data",
-        "last-fm-music",
-        "daily",
-        key,
-        "listening-history.json"
-      ),
+      join(".", "data", "last-fm-music", "daily", key, "listening-history.json"),
       JSON.stringify(itemsByDate[key], null, 2)
     );
   }
@@ -71,15 +63,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 7-day top albums");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "weekly",
-      "top-albums",
-      date.format("YYYY"),
-      `${date.week()}.json`
-    ),
+    join(".", "data", "last-fm-music", "weekly", "top-albums", date.format("YYYY"), `${date.week()}.json`),
     JSON.stringify(topAlbumsWeekly.topalbums.album, null, 2)
   );
 
@@ -90,15 +74,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 7-day top tracks");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "weekly",
-      "top-tracks",
-      date.format("YYYY"),
-      `${date.week()}.json`
-    ),
+    join(".", "data", "last-fm-music", "weekly", "top-tracks", date.format("YYYY"), `${date.week()}.json`),
     JSON.stringify(topTracksWeekly.toptracks.track, null, 2)
   );
 
@@ -109,15 +85,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 7-day top artists");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "weekly",
-      "top-artists",
-      date.format("YYYY"),
-      `${date.week()}.json`
-    ),
+    join(".", "data", "last-fm-music", "weekly", "top-artists", date.format("YYYY"), `${date.week()}.json`),
     JSON.stringify(topArtistsWeekly.topartists.artist, null, 2)
   );
 
@@ -128,15 +96,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-month top albums");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "monthly",
-      "top-albums",
-      date.format("YYYY"),
-      `${date.format("MM")}.json`
-    ),
+    join(".", "data", "last-fm-music", "monthly", "top-albums", date.format("YYYY"), `${date.format("MM")}.json`),
     JSON.stringify(topAlbumsMonthly.topalbums.album, null, 2)
   );
 
@@ -147,15 +107,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-month top tracks");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "monthly",
-      "top-tracks",
-      date.format("YYYY"),
-      `${date.format("MM")}.json`
-    ),
+    join(".", "data", "last-fm-music", "monthly", "top-tracks", date.format("YYYY"), `${date.format("MM")}.json`),
     JSON.stringify(topTracksMonthly.toptracks.track, null, 2)
   );
 
@@ -166,15 +118,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-month top artists");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "monthly",
-      "top-artists",
-      date.format("YYYY"),
-      `${date.format("MM")}.json`
-    ),
+    join(".", "data", "last-fm-music", "monthly", "top-artists", date.format("YYYY"), `${date.format("MM")}.json`),
     JSON.stringify(topArtistsMonthly.topartists.artist, null, 2)
   );
 
@@ -185,14 +129,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-year top albums");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "yearly",
-      "top-albums",
-      `${date.format("YYYY")}.json`
-    ),
+    join(".", "data", "last-fm-music", "yearly", "top-albums", `${date.format("YYYY")}.json`),
     JSON.stringify(topAlbumsYearly.topalbums.album, null, 2)
   );
 
@@ -203,14 +140,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-year top tracks");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "yearly",
-      "top-tracks",
-      `${date.format("YYYY")}.json`
-    ),
+    join(".", "data", "last-fm-music", "yearly", "top-tracks", `${date.format("YYYY")}.json`),
     JSON.stringify(topTracksYearly.toptracks.track, null, 2)
   );
 
@@ -221,14 +151,7 @@ export const daily = async () => {
   });
   console.log("Last.fm: Added 1-year top artists");
   await write(
-    join(
-      ".",
-      "data",
-      "last-fm-music",
-      "yearly",
-      "top-artists",
-      `${date.format("YYYY")}.json`
-    ),
+    join(".", "data", "last-fm-music", "yearly", "top-artists", `${date.format("YYYY")}.json`),
     JSON.stringify(topArtistsYearly.topartists.artist, null, 2)
   );
 

@@ -11,15 +11,14 @@ cosmicSync("life");
  * From `T` make a set of properties by key `K` become optional
  * @source https://github.com/piotrwitek/utility-types/blob/master/src/mapped-types.ts#L540
  */
-type Optional<T extends object, K extends keyof T = keyof T> = Omit<T, K> &
-  Partial<Pick<T, K>>;
+type Optional<T extends object, K extends keyof T = keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 const api = new SpotifyAPI({
-  clientId: config("spotifyClientId") ?? "example",
-  clientSecret: config("spotifyClientSecret") ?? "example",
-  redirectUri: config("spotifyCallbackUrl") ?? "http://localhost:3000/callback",
-  accessToken: config("spotifyAccessToken") ?? "example",
-  refreshToken: config("spotifyRefreshToken") ?? "example",
+  clientId: config("spotifyClientId") || "example",
+  clientSecret: config("spotifyClientSecret") || "example",
+  redirectUri: config("spotifyCallbackUrl") || "http://localhost:3000/callback",
+  accessToken: config("spotifyAccessToken") || "example",
+  refreshToken: config("spotifyRefreshToken") || "example",
 });
 
 export const daily = async () => {
@@ -35,22 +34,12 @@ export const daily = async () => {
     const year = date.format("YYYY");
     const month = date.format("MM");
     const day = date.format("DD");
-    itemsByDate[`${year}/${month}/${day}`] =
-      itemsByDate[`${year}/${month}/${day}`] ?? [];
-    itemsByDate[`${year}/${month}/${day}`].push(
-      cleanSpotifyTrackResponse(item.track)
-    );
+    itemsByDate[`${year}/${month}/${day}`] = itemsByDate[`${year}/${month}/${day}`] || [];
+    itemsByDate[`${year}/${month}/${day}`].push(cleanSpotifyTrackResponse(item.track));
   }
   for await (const key of Object.keys(itemsByDate)) {
     await write(
-      join(
-        ".",
-        "data",
-        "spotify-music",
-        "daily",
-        key,
-        "listening-history.json"
-      ),
+      join(".", "data", "spotify-music", "daily", key, "listening-history.json"),
       JSON.stringify(itemsByDate[key], null, 2)
     );
   }
@@ -62,23 +51,12 @@ export const daily = async () => {
   const day = date.format("DD");
 
   const library = await api.getMySavedTracks();
-  const libraryItems = cleanSpotifyTracksResponse(
-    library.body.items.map((item) => item.track)
-  ).map((item, index) => ({
+  const libraryItems = cleanSpotifyTracksResponse(library.body.items.map((item) => item.track)).map((item, index) => ({
     ...item,
     date: library.body.items[index].added_at,
   }));
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "library.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "library.json"),
     JSON.stringify(libraryItems, null, 2)
   );
   console.log("Spotify: Added library");
@@ -87,17 +65,7 @@ export const daily = async () => {
     (await api.getMyTopTracks({ time_range: "short_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-tracks",
-      "short-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "short-term.json"),
     JSON.stringify(shortTermTopTracks, null, 2)
   );
   console.log("Spotify: Added short-term top tracks");
@@ -106,17 +74,7 @@ export const daily = async () => {
     (await api.getMyTopTracks({ time_range: "medium_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-tracks",
-      "medium-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "medium-term.json"),
     JSON.stringify(mediumTermTopTracks, null, 2)
   );
   console.log("Spotify: Added medium-term top tracks");
@@ -125,17 +83,7 @@ export const daily = async () => {
     (await api.getMyTopTracks({ time_range: "long_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-tracks",
-      "long-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "long-term.json"),
     JSON.stringify(longTermTopTracks, null, 2)
   );
   console.log("Spotify: Added long-term top tracks");
@@ -144,17 +92,7 @@ export const daily = async () => {
     (await api.getMyTopArtists({ time_range: "short_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-artists",
-      "short-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "short-term.json"),
     JSON.stringify(shortTermTopArtists, null, 2)
   );
   console.log("Spotify: Added short-term top artists");
@@ -163,17 +101,7 @@ export const daily = async () => {
     (await api.getMyTopArtists({ time_range: "medium_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-artists",
-      "medium-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "medium-term.json"),
     JSON.stringify(mediumTermTopArtists, null, 2)
   );
   console.log("Spotify: Added medium-term top artists");
@@ -182,17 +110,7 @@ export const daily = async () => {
     (await api.getMyTopArtists({ time_range: "long_term" })).body.items
   );
   await write(
-    join(
-      ".",
-      "data",
-      "spotify-music",
-      "daily",
-      year,
-      month,
-      day,
-      "top-artists",
-      "long-term.json"
-    ),
+    join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "long-term.json"),
     JSON.stringify(longTermTopArtists, null, 2)
   );
   console.log("Spotify: Added long-term top artists");
@@ -201,10 +119,7 @@ export const daily = async () => {
 };
 
 export const callbackUrl = async () => {
-  const authorizeURL = api.createAuthorizeURL(
-    ["user-top-read", "user-library-read"],
-    "state"
-  );
+  const authorizeURL = api.createAuthorizeURL(["user-top-read", "user-library-read"], "state");
   console.log(authorizeURL);
 };
 
@@ -215,10 +130,7 @@ export const authTokens = async (code: string) => {
 };
 
 const cleanSpotifyArtistResponse = (
-  artist: Optional<
-    SpotifyApi.ArtistObjectFull,
-    "followers" | "external_urls" | "popularity"
-  >
+  artist: Optional<SpotifyApi.ArtistObjectFull, "followers" | "external_urls" | "popularity">
 ) => {
   delete artist.followers;
   delete artist.external_urls;
@@ -278,15 +190,11 @@ const cleanSpotifyTrackResponse = (
   return track;
 };
 
-export const cleanSpotifyArtistsResponse = (
-  artists: SpotifyApi.ArtistObjectFull[]
-) => {
+export const cleanSpotifyArtistsResponse = (artists: SpotifyApi.ArtistObjectFull[]) => {
   return artists.map((artist) => cleanSpotifyArtistResponse(artist));
 };
 
-export const cleanSpotifyTracksResponse = (
-  tracks: SpotifyApi.TrackObjectFull[]
-) => {
+export const cleanSpotifyTracksResponse = (tracks: SpotifyApi.TrackObjectFull[]) => {
   return tracks.map((track) => cleanSpotifyTrackResponse(track));
 };
 

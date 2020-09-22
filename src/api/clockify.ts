@@ -49,20 +49,12 @@ const getTimeData = async (date: Date) => {
     const year = date.format("YYYY");
     const month = date.format("MM");
     const day = date.format("DD");
-    itemsByDate[`${year}/${month}/${day}`] =
-      itemsByDate[`${year}/${month}/${day}`] ?? [];
+    itemsByDate[`${year}/${month}/${day}`] = itemsByDate[`${year}/${month}/${day}`] || [];
     itemsByDate[`${year}/${month}/${day}`].push(item);
   }
   for await (const key of Object.keys(itemsByDate)) {
     await write(
-      join(
-        ".",
-        "data",
-        "clockify-time-tracking",
-        "daily",
-        key,
-        "time-entries.json"
-      ),
+      join(".", "data", "clockify-time-tracking", "daily", key, "time-entries.json"),
       JSON.stringify(itemsByDate[key], null, 2)
     );
   }

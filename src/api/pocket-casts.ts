@@ -9,8 +9,8 @@ dayjs.extend(week);
 cosmicSync("life");
 
 const pocketCasts = new PocketCasts(
-  config("pocketCastsUsername") ?? "example",
-  config("pocketCastsPassword") ?? "example"
+  config("pocketCastsUsername") || "example",
+  config("pocketCastsPassword") || "example"
 );
 
 export const daily = async () => {
@@ -18,25 +18,14 @@ export const daily = async () => {
   await pocketCasts.login();
 
   const podcasts = (await pocketCasts.getList()).podcasts;
-  await write(
-    join(".", "data", "pocket-casts-podcasts", "library.json"),
-    JSON.stringify(podcasts, null, 2)
-  );
+  await write(join(".", "data", "pocket-casts-podcasts", "library.json"), JSON.stringify(podcasts, null, 2));
   console.log("Pocket Casts: Added library");
 
   let items: Episode[] = [];
   try {
-    const years = await readdir(
-      join(".", "data", "pocket-casts-podcasts", "daily")
-    );
+    const years = await readdir(join(".", "data", "pocket-casts-podcasts", "daily"));
     const months = await readdir(
-      join(
-        ".",
-        "data",
-        "pocket-casts-podcasts",
-        "daily",
-        zero(Math.max(...years.map(parseInt)).toString())
-      )
+      join(".", "data", "pocket-casts-podcasts", "daily", zero(Math.max(...years.map(parseInt)).toString()))
     );
     const days = await readdir(
       join(
@@ -72,16 +61,7 @@ export const daily = async () => {
   const month = date.format("MM");
   const day = date.format("DD");
   await write(
-    join(
-      ".",
-      "data",
-      "pocket-casts-podcasts",
-      "daily",
-      year,
-      month,
-      day,
-      "listening-history.json"
-    ),
+    join(".", "data", "pocket-casts-podcasts", "daily", year, month, day, "listening-history.json"),
     JSON.stringify(newEpisodes, null, 2)
   );
   console.log(`Pocket Casts: Added ${newEpisodes.length} new episodes`);

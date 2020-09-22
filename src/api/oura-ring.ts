@@ -26,11 +26,7 @@ const updateOuraDailyData = async (date: Date) => {
       gender: string;
       email: string;
     };
-  } = await axios.get(
-    `https://api.ouraring.com/v1/userinfo?access_token=${config(
-      "ouraPersonalAccessToken"
-    )}`
-  );
+  } = await axios.get(`https://api.ouraring.com/v1/userinfo?access_token=${config("ouraPersonalAccessToken")}`);
   await write(
     join(
       ".",
@@ -144,20 +140,13 @@ export const summary = async () => {
     "efficiency",
     "light",
   ]) {
-    for await (const category of [
-      "oura-readiness",
-      "oura-activity",
-      "oura-weight",
-      "oura-sleep",
-    ]) {
+    for await (const category of ["oura-readiness", "oura-activity", "oura-weight", "oura-sleep"]) {
       // Find all items that have daily
       if (
         (await pathExists(join(".", "data", category, "daily"))) &&
         (await lstat(join(".", "data", category, "daily"))).isDirectory()
       ) {
-        const years = (
-          await readdir(join(".", "data", category, "daily"))
-        ).filter((i) => /^\d+$/.test(i));
+        const years = (await readdir(join(".", "data", category, "daily"))).filter((i) => /^\d+$/.test(i));
         const yearData: { [index: string]: number } = {};
         const weeklyData: {
           [index: string]: {
@@ -167,34 +156,19 @@ export const summary = async () => {
         for await (const year of years) {
           let yearlySum = 0;
           const monthlyData: { [index: string]: number } = {};
-          [...Array(13).keys()]
-            .slice(1)
-            .forEach((val) => (monthlyData[val.toString()] = 0));
-          const months = (
-            await readdir(join(".", "data", category, "daily", year))
-          ).filter((i) => /^\d+$/.test(i));
+          [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
+          const months = (await readdir(join(".", "data", category, "daily", year))).filter((i) => /^\d+$/.test(i));
           for await (const month of months) {
             let monthlySum = 0;
             const dailyData: { [index: string]: number } = {};
             [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
               .slice(1)
               .forEach((val) => (dailyData[val.toString()] = 0));
-            const days = (
-              await readdir(join(".", "data", category, "daily", year, month))
-            ).filter((i) => /^\d+$/.test(i));
+            const days = (await readdir(join(".", "data", category, "daily", year, month))).filter((i) =>
+              /^\d+$/.test(i)
+            );
             for await (const day of days) {
-              let json = await readJson(
-                join(
-                  ".",
-                  "data",
-                  category,
-                  "daily",
-                  year,
-                  month,
-                  day,
-                  "sessions.json"
-                )
-              );
+              let json = await readJson(join(".", "data", category, "daily", year, month, day, "sessions.json"));
               let dailySum = 0;
               if (Array.isArray(json)) {
                 json.forEach((record: any) => {
@@ -208,63 +182,28 @@ export const summary = async () => {
               yearlySum += dailySum;
               Object.keys(dailyData).forEach((key) => {
                 const weekNumber = dayjs(`${year}-${month}-${key}`).week();
-                weeklyData[year] = weeklyData[year] ?? {};
-                weeklyData[year][weekNumber] =
-                  weeklyData[year][weekNumber] ?? {};
-                weeklyData[year][weekNumber][`${year}-${month}-${key}`] =
-                  dailyData[key];
+                weeklyData[year] = weeklyData[year] || {};
+                weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
+                weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
               });
             }
-            if (
-              Object.keys(dailyData).length &&
-              Object.values(dailyData).reduce((a, b) => a + b, 0)
-            )
+            if (Object.keys(dailyData).length && Object.values(dailyData).reduce((a, b) => a + b, 0))
               await write(
-                join(
-                  ".",
-                  "data",
-                  category,
-                  "summary",
-                  key.replace(/_/g, "-"),
-                  "days",
-                  year,
-                  `${month}.json`
-                ),
+                join(".", "data", category, "summary", key.replace(/_/g, "-"), "days", year, `${month}.json`),
                 JSON.stringify(dailyData, null, 2)
               );
             if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
           }
-          if (
-            Object.keys(monthlyData).length &&
-            Object.values(monthlyData).reduce((a, b) => a + b, 0)
-          )
+          if (Object.keys(monthlyData).length && Object.values(monthlyData).reduce((a, b) => a + b, 0))
             await write(
-              join(
-                ".",
-                "data",
-                category,
-                "summary",
-                key.replace(/_/g, "-"),
-                "months",
-                `${year}.json`
-              ),
+              join(".", "data", category, "summary", key.replace(/_/g, "-"), "months", `${year}.json`),
               JSON.stringify(monthlyData, null, 2)
             );
           if (yearlySum) yearData[parseInt(year)] = yearlySum;
         }
-        if (
-          Object.keys(yearData).length &&
-          Object.values(yearData).reduce((a, b) => a + b, 0)
-        )
+        if (Object.keys(yearData).length && Object.values(yearData).reduce((a, b) => a + b, 0))
           await write(
-            join(
-              ".",
-              "data",
-              category,
-              "summary",
-              key.replace(/_/g, "-"),
-              "years.json"
-            ),
+            join(".", "data", category, "summary", key.replace(/_/g, "-"), "years.json"),
             JSON.stringify(yearData, null, 2)
           );
         for await (const year of Object.keys(weeklyData)) {
@@ -274,16 +213,7 @@ export const summary = async () => {
               Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
             )
               await write(
-                join(
-                  ".",
-                  "data",
-                  category,
-                  "summary",
-                  key.replace(/_/g, "-"),
-                  "weeks",
-                  year,
-                  `${week}.json`
-                ),
+                join(".", "data", category, "summary", key.replace(/_/g, "-"), "weeks", year, `${week}.json`),
                 JSON.stringify(weeklyData[year][week], null, 2)
               );
           }
