@@ -101,7 +101,8 @@ const updateRescueTimeDailyData = async (date: Date) => {
     join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-overview.json"),
     JSON.stringify(topOverviewData, null, 2)
   );
-  if (config("config")?.rescueTime?.trackTopActivities)
+  const configItems = config("config");
+  if (configItems.rescueTime && configItems.rescueTime.trackTopActivities)
     await write(
       join(".", "data", "rescuetime-time-tracking", "daily", year, month, day, "top-activities.json"),
       JSON.stringify(topActivitiesData, null, 2)

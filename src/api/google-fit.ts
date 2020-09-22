@@ -64,8 +64,8 @@ const updateGoogleFitDailyData = async (date: Date) => {
     startTime: dayjs(date).startOf("day").toISOString(),
     endTime: dayjs(date).endOf("day").toISOString(),
   });
-  if (sources.data.session?.length) await saveData(sources.data.session);
-  console.log(`Fetched ${sources.data.session?.length || 0} workout sessions for ${date.toLocaleDateString()}`);
+  if (sources.data.session && sources.data.session.length) await saveData(sources.data.session);
+  console.log(`Fetched ${(sources.data.session || []).length || 0} workout sessions for ${date.toLocaleDateString()}`);
   if (sources.data.session) await saveData(sources.data.session);
 };
 

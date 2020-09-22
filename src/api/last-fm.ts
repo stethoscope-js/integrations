@@ -32,7 +32,7 @@ const getLastFmTracks = async (date: Date, page = 1) => {
   const tracks = await fetchTracks(date, page);
   const itemsByDate: { [index: string]: ITrack[] } = {};
   for await (const item of tracks.recenttracks.track) {
-    const date = dayjs(Number(item.date?.uts) * 1000);
+    const date = dayjs(Number((item.date || {}).uts) * 1000);
     const year = date.format("YYYY");
     const month = date.format("MM");
     const day = date.format("DD");
