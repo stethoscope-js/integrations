@@ -7,3 +7,4 @@ export { daily as clockifyDaily } from "./api/clockify";
 export { daily as googleFitDaily, legacy as googleFitLegacy } from "./api/google-fit";
 export { daily as ouraRingDaily, legacy as ouraRingLegacy } from "./api/oura-ring";
 export { daily as goodreadsDaily } from "./api/goodreads";
+export { daily as twitterDaily } from "./api/twitter";
