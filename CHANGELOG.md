@@ -1,3 +1,8 @@
+# [v1.2.0](https://github.com/stethoscope-js/integrations/compare/v1.1.6...v1.2.0) (2020-09-22)
+
+## ✨ New features
+- [`4fd2ad1`](https://github.com/stethoscope-js/integrations/commit/4fd2ad1)  Opt-in to all tracking
+
 # [v1.1.6](https://github.com/stethoscope-js/integrations/compare/v1.1.5...v1.1.6) (2020-09-22)
 
 ## ♻️ Updates
