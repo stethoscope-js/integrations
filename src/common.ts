@@ -3,7 +3,7 @@ import { ensureFile, writeFile } from "fs-extra";
 cosmicSync("stethoscope");
 
 export const integrationConfig = (service: string) => {
-  const configs: { [index: string]: { [index: string]: boolean } } = config("config") || {};
+  const configs: { [index: string]: { [index: string]: boolean } } = config("integrations") || {};
   return configs[service] || {};
 };
 
