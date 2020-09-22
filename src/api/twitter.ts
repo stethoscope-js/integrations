@@ -22,7 +22,7 @@ interface Tweet {
   text: string;
 }
 
-export const getRecentTweets = async (count: number = 2) => {
+export const getRecentTweets = async (count: number = 100) => {
   if (integrationConfig("twitter").tweets) {
     const response: Array<Tweet> = await client.get("statuses/user_timeline", {
       screen_name: config("twitterScreenName") || "",
