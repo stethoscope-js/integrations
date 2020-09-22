@@ -1,3 +1,8 @@
+# [v1.1.1](https://github.com/stethoscope-js/integrations/compare/v1.1.0...v1.1.1) (2020-09-22)
+
+## 🐛 Bug fixes
+- [`270dbc0`](https://github.com/stethoscope-js/integrations/commit/270dbc0)  Remove publishing to GitHub Packages
+
 # [v1.1.0](https://github.com/stethoscope-js/integrations/compare/v1.0.2...v1.1.0) (2020-09-21)
 
 ## ✨ New features
