@@ -1,3 +1,8 @@
+# [v1.3.0](https://github.com/stethoscope-js/integrations/compare/v1.2.1...v1.3.0) (2020-09-22)
+
+## ✨ New features
+- [`34c0e76`](https://github.com/stethoscope-js/integrations/commit/34c0e76)  Support for &#x60;all&#x60; under integrations
+
 # [v1.2.1](https://github.com/stethoscope-js/integrations/compare/v1.2.0...v1.2.1) (2020-09-22)
 
 ## ♻️ Updates
