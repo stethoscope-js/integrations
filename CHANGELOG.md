@@ -1,3 +1,8 @@
+# [v1.1.4](https://github.com/stethoscope-js/integrations/compare/v1.1.3...v1.1.4) (2020-09-22)
+
+## ♻️ Updates
+- [`f22d56c`](https://github.com/stethoscope-js/integrations/commit/f22d56c)  Change ?. to &amp;&amp;
+
 # [v1.1.3](https://github.com/stethoscope-js/integrations/compare/v1.1.2...v1.1.3) (2020-09-22)
 
 ## ♻️ Updates
