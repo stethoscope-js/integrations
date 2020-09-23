@@ -130,9 +130,9 @@ export default class RescueTime implements Integration {
     }
     console.log("RescueTime: Added daily summaries");
   }
-  async legacy() {
+  async legacy(start: string) {
     const CONCURRENCY = 10;
-    const startDate = dayjs("2017-12-18");
+    const startDate = dayjs(start);
     let count = 0;
     const pool = new PromisePool(async () => {
       const date = dayjs(startDate).add(count, "day");

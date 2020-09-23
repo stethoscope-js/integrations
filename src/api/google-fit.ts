@@ -83,9 +83,9 @@ export default class GoogleFit implements Integration {
     console.log("Google Fit: Added daily summaries");
   }
 
-  async legacy() {
+  async legacy(start: string) {
     const CONCURRENCY = 1;
-    const startDate = dayjs("2020-07-29");
+    const startDate = dayjs(start);
     let count = 0;
     const pool = new PromisePool(async () => {
       const date = dayjs(startDate).add(count, "day");

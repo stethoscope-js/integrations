@@ -138,9 +138,9 @@ export default class OuraRing implements Integration {
     }
     console.log("Oura: Added daily summaries");
   }
-  async legacy() {
+  async legacy(start: string) {
     const CONCURRENCY = 1;
-    const startDate = dayjs("2020-08-15");
+    const startDate = dayjs(start);
     let count = 0;
     const pool = new PromisePool(async () => {
       const date = dayjs(startDate).add(count, "day");

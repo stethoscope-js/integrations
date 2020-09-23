@@ -43,9 +43,9 @@ export default class Wakatime implements Integration {
     }
     console.log("WakaTime: Added daily summaries");
   }
-  async legacy() {
+  async legacy(start: string) {
     const CONCURRENCY = 3;
-    const startDate = dayjs("2020-07-20");
+    const startDate = dayjs(start);
     let count = 0;
     const pool = new PromisePool(async () => {
       const date = dayjs(startDate).add(count, "day");

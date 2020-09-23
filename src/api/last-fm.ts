@@ -181,9 +181,9 @@ export default class LastDotFm implements Integration {
 
     console.log("Last.fm: Completed");
   }
-  async legacy() {
+  async legacy(start: string) {
     const CONCURRENCY = 10;
-    const startDate = dayjs("2014-03-11");
+    const startDate = dayjs(start);
     let count = 0;
     const pool = new PromisePool(async () => {
       const date = dayjs(startDate).add(count, "day");
