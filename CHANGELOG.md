@@ -1,3 +1,20 @@
+# [v2.0.0](https://github.com/stethoscope-js/integrations/compare/v1.4.2...v2.0.0) (2020-09-23)
+
+## ✨ New features
+- [`f46910c`](https://github.com/stethoscope-js/integrations/commit/f46910c)  Add integration interface
+
+- [`bc99751`](https://github.com/stethoscope-js/integrations/commit/bc99751)  Add CLI exporter
+
+- [`e97f00a`](https://github.com/stethoscope-js/integrations/commit/e97f00a)  Use provided start time in legacy update
+
+## ♻️ Updates
+- [`45a291e`](https://github.com/stethoscope-js/integrations/commit/45a291e)  Change Clockify to export class
+
+- [`81ea840`](https://github.com/stethoscope-js/integrations/commit/81ea840)  Export classes
+
+## 💥 Breaking changes
+- [`f485409`](https://github.com/stethoscope-js/integrations/commit/f485409)  BREAKING: Change integrations to classes
+
 # [v1.4.2](https://github.com/stethoscope-js/integrations/compare/v1.4.1...v1.4.2) (2020-09-22)
 
 ## 🐛 Bug fixes
