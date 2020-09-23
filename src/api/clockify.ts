@@ -63,7 +63,7 @@ const getTimeData = async (date: Date) => {
   }
 };
 
-export const getUserId = async () => {
+const getUserId = async () => {
   const { data } = await axios.get(`https://api.clockify.me/api/v1/user`, {
     headers: { "X-Api-Key": apiKey },
   });
@@ -72,6 +72,7 @@ export const getUserId = async () => {
 
 export class Clockify implements Integration {
   name = "clockify";
+  cli = { getUserId };
   async update() {
     console.log("Clockify: Starting...");
     for await (const day of [0, 1, 2, 3, 4]) {
