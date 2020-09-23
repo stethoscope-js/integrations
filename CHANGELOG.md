@@ -1,3 +1,11 @@
+# [v2.1.0](https://github.com/stethoscope-js/integrations/compare/v2.0.0...v2.1.0) (2020-09-23)
+
+## ✨ New features
+- [`4fdf977`](https://github.com/stethoscope-js/integrations/commit/4fdf977)  Add CLI
+
+## 🐛 Bug fixes
+- [`4d3720e`](https://github.com/stethoscope-js/integrations/commit/4d3720e)  Export interface Integrations
+
 # [v2.0.0](https://github.com/stethoscope-js/integrations/compare/v1.4.2...v2.0.0) (2020-09-23)
 
 ## ✨ New features
