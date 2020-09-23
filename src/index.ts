@@ -1,10 +1,12 @@
-export { daily as spotifyDaily, summary as spotifySummary } from "./api/spotify";
-export { daily as rescueTimeDaily, summary as rescueTimeSummary, legacy as rescueTimeLegacy } from "./api/rescuetime";
-export { daily as lastFmDaily, summary as lastFmSummary, legacy as lastFmLegacy } from "./api/last-fm";
-export { daily as pocketCastsDaily, summary as pocketCastsSummary } from "./api/pocket-casts";
-export { daily as wakatimeDaily, summary as wakatimeSummary, legacy as wakatimeLegacy } from "./api/wakatime";
-export { daily as clockifyDaily, summary as clockifySummary } from "./api/clockify";
-export { daily as googleFitDaily, summary as googleFitSummary, legacy as googleFitLegacy } from "./api/google-fit";
-export { daily as ouraRingDaily, summary as ouraRingSummary, legacy as ouraRingLegacy } from "./api/oura-ring";
-export { daily as goodreadsDaily, summary as goodreadsSummary } from "./api/goodreads";
-export { daily as twitterDaily, summary as twitterSummary } from "./api/twitter";
+import Spotify from "./api/spotify";
+import Rescuetime from "./api/rescuetime";
+import LastFm from "./api/last-fm";
+import PocketCasts from "./api/pocket-casts";
+import Wakatime from "./api/wakatime";
+import Clockify from "./api/clockify";
+import GoogleFit from "./api/google-fit";
+import OuraRing from "./api/oura-ring";
+import Goodreads from "./api/goodreads";
+import Twitter from "./api/twitter";
+
+export { Spotify, Rescuetime, LastFm, PocketCasts, Wakatime, Clockify, GoogleFit, OuraRing, Goodreads, Twitter };
