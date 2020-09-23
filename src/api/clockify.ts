@@ -63,15 +63,6 @@ const getTimeData = async (date: Date) => {
   }
 };
 
-export const daily = async () => {
-  console.log("Clockify: Starting...");
-  for await (const day of [0, 1, 2, 3, 4]) {
-    await getTimeData(dayjs().subtract(day, "day").toDate());
-    console.log("Clockify: Added data");
-  }
-  console.log("Clockify: Added daily summaries");
-};
-
 export const getUserId = async () => {
   const { data } = await axios.get(`https://api.clockify.me/api/v1/user`, {
     headers: { "X-Api-Key": apiKey },
@@ -79,4 +70,16 @@ export const getUserId = async () => {
   console.log("User ID", data.id);
 };
 
-export const summary = async () => {};
+export class Clockify implements Integration {
+  name = "clockify";
+  async update() {
+    console.log("Clockify: Starting...");
+    for await (const day of [0, 1, 2, 3, 4]) {
+      await getTimeData(dayjs().subtract(day, "day").toDate());
+      console.log("Clockify: Added data");
+    }
+    console.log("Clockify: Added daily summaries");
+  }
+  async summary() {}
+  async legacy() {}
+}
