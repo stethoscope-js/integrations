@@ -70,7 +70,7 @@ const getUserId = async () => {
   console.log("User ID", data.id);
 };
 
-export class Clockify implements Integration {
+export default class Clockify implements Integration {
   name = "clockify";
   cli = { getUserId };
   async update() {

@@ -49,147 +49,150 @@ const getLastFmTracks = async (date: Date, page = 1) => {
   }
 };
 
-export const daily = async () => {
-  console.log("Last.fm: Starting...");
-  const date = dayjs();
-  for await (const day of [0, 1, 2, 3, 4]) {
-    await getLastFmTracks(dayjs().subtract(day, "day").toDate());
-    console.log("Last.fm: Added data");
+export default class LastDotFm implements Integration {
+  name = "last-fm";
+  cli = {};
+
+  async update() {
+    console.log("Last.fm: Starting...");
+    const date = dayjs();
+    for await (const day of [0, 1, 2, 3, 4]) {
+      await getLastFmTracks(dayjs().subtract(day, "day").toDate());
+      console.log("Last.fm: Added data");
+    }
+    console.log("Last.fm: Added daily summaries");
+
+    if (integrationConfig("last-fm")["top-albums"]) {
+      const topAlbumsWeekly = await lastFm.user.getTopAlbums({
+        user: config("lastfmUsername"),
+        period: "7day",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 7-day top albums");
+      await write(
+        join(".", "data", "last-fm-music", "weekly", "top-albums", date.format("YYYY"), `${date.week()}.json`),
+        JSON.stringify(topAlbumsWeekly.topalbums.album, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-tracks"]) {
+      const topTracksWeekly = await lastFm.user.getTopTracks({
+        user: config("lastfmUsername"),
+        period: "7day",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 7-day top tracks");
+      await write(
+        join(".", "data", "last-fm-music", "weekly", "top-tracks", date.format("YYYY"), `${date.week()}.json`),
+        JSON.stringify(topTracksWeekly.toptracks.track, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-artists"]) {
+      const topArtistsWeekly = await lastFm.user.getTopArtists({
+        user: config("lastfmUsername"),
+        period: "7day",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 7-day top artists");
+      await write(
+        join(".", "data", "last-fm-music", "weekly", "top-artists", date.format("YYYY"), `${date.week()}.json`),
+        JSON.stringify(topArtistsWeekly.topartists.artist, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-albums"]) {
+      const topAlbumsMonthly = await lastFm.user.getTopAlbums({
+        user: config("lastfmUsername"),
+        period: "1month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-month top albums");
+      await write(
+        join(".", "data", "last-fm-music", "monthly", "top-albums", date.format("YYYY"), `${date.format("MM")}.json`),
+        JSON.stringify(topAlbumsMonthly.topalbums.album, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-tracks"]) {
+      const topTracksMonthly = await lastFm.user.getTopTracks({
+        user: config("lastfmUsername"),
+        period: "1month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-month top tracks");
+      await write(
+        join(".", "data", "last-fm-music", "monthly", "top-tracks", date.format("YYYY"), `${date.format("MM")}.json`),
+        JSON.stringify(topTracksMonthly.toptracks.track, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-artists"]) {
+      const topArtistsMonthly = await lastFm.user.getTopArtists({
+        user: config("lastfmUsername"),
+        period: "1month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-month top artists");
+      await write(
+        join(".", "data", "last-fm-music", "monthly", "top-artists", date.format("YYYY"), `${date.format("MM")}.json`),
+        JSON.stringify(topArtistsMonthly.topartists.artist, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-albums"]) {
+      const topAlbumsYearly = await lastFm.user.getTopAlbums({
+        user: config("lastfmUsername"),
+        period: "12month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-year top albums");
+      await write(
+        join(".", "data", "last-fm-music", "yearly", "top-albums", `${date.format("YYYY")}.json`),
+        JSON.stringify(topAlbumsYearly.topalbums.album, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-tracks"]) {
+      const topTracksYearly = await lastFm.user.getTopTracks({
+        user: config("lastfmUsername"),
+        period: "12month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-year top tracks");
+      await write(
+        join(".", "data", "last-fm-music", "yearly", "top-tracks", `${date.format("YYYY")}.json`),
+        JSON.stringify(topTracksYearly.toptracks.track, null, 2)
+      );
+    }
+
+    if (integrationConfig("last-fm")["top-artists"]) {
+      const topArtistsYearly = await lastFm.user.getTopArtists({
+        user: config("lastfmUsername"),
+        period: "12month",
+        limit: 20,
+      });
+      console.log("Last.fm: Added 1-year top artists");
+      await write(
+        join(".", "data", "last-fm-music", "yearly", "top-artists", `${date.format("YYYY")}.json`),
+        JSON.stringify(topArtistsYearly.topartists.artist, null, 2)
+      );
+    }
+
+    console.log("Last.fm: Completed");
   }
-  console.log("Last.fm: Added daily summaries");
-
-  if (integrationConfig("last-fm")["top-albums"]) {
-    const topAlbumsWeekly = await lastFm.user.getTopAlbums({
-      user: config("lastfmUsername"),
-      period: "7day",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 7-day top albums");
-    await write(
-      join(".", "data", "last-fm-music", "weekly", "top-albums", date.format("YYYY"), `${date.week()}.json`),
-      JSON.stringify(topAlbumsWeekly.topalbums.album, null, 2)
-    );
+  async legacy() {
+    const CONCURRENCY = 10;
+    const startDate = dayjs("2014-03-11");
+    let count = 0;
+    const pool = new PromisePool(async () => {
+      const date = dayjs(startDate).add(count, "day");
+      if (dayjs().diff(date, "day") === 0) return null;
+      count++;
+      return getLastFmTracks(date.toDate());
+    }, CONCURRENCY);
+    await pool.start();
+    console.log("Done!");
   }
-
-  if (integrationConfig("last-fm")["top-tracks"]) {
-    const topTracksWeekly = await lastFm.user.getTopTracks({
-      user: config("lastfmUsername"),
-      period: "7day",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 7-day top tracks");
-    await write(
-      join(".", "data", "last-fm-music", "weekly", "top-tracks", date.format("YYYY"), `${date.week()}.json`),
-      JSON.stringify(topTracksWeekly.toptracks.track, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-artists"]) {
-    const topArtistsWeekly = await lastFm.user.getTopArtists({
-      user: config("lastfmUsername"),
-      period: "7day",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 7-day top artists");
-    await write(
-      join(".", "data", "last-fm-music", "weekly", "top-artists", date.format("YYYY"), `${date.week()}.json`),
-      JSON.stringify(topArtistsWeekly.topartists.artist, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-albums"]) {
-    const topAlbumsMonthly = await lastFm.user.getTopAlbums({
-      user: config("lastfmUsername"),
-      period: "1month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-month top albums");
-    await write(
-      join(".", "data", "last-fm-music", "monthly", "top-albums", date.format("YYYY"), `${date.format("MM")}.json`),
-      JSON.stringify(topAlbumsMonthly.topalbums.album, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-tracks"]) {
-    const topTracksMonthly = await lastFm.user.getTopTracks({
-      user: config("lastfmUsername"),
-      period: "1month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-month top tracks");
-    await write(
-      join(".", "data", "last-fm-music", "monthly", "top-tracks", date.format("YYYY"), `${date.format("MM")}.json`),
-      JSON.stringify(topTracksMonthly.toptracks.track, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-artists"]) {
-    const topArtistsMonthly = await lastFm.user.getTopArtists({
-      user: config("lastfmUsername"),
-      period: "1month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-month top artists");
-    await write(
-      join(".", "data", "last-fm-music", "monthly", "top-artists", date.format("YYYY"), `${date.format("MM")}.json`),
-      JSON.stringify(topArtistsMonthly.topartists.artist, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-albums"]) {
-    const topAlbumsYearly = await lastFm.user.getTopAlbums({
-      user: config("lastfmUsername"),
-      period: "12month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-year top albums");
-    await write(
-      join(".", "data", "last-fm-music", "yearly", "top-albums", `${date.format("YYYY")}.json`),
-      JSON.stringify(topAlbumsYearly.topalbums.album, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-tracks"]) {
-    const topTracksYearly = await lastFm.user.getTopTracks({
-      user: config("lastfmUsername"),
-      period: "12month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-year top tracks");
-    await write(
-      join(".", "data", "last-fm-music", "yearly", "top-tracks", `${date.format("YYYY")}.json`),
-      JSON.stringify(topTracksYearly.toptracks.track, null, 2)
-    );
-  }
-
-  if (integrationConfig("last-fm")["top-artists"]) {
-    const topArtistsYearly = await lastFm.user.getTopArtists({
-      user: config("lastfmUsername"),
-      period: "12month",
-      limit: 20,
-    });
-    console.log("Last.fm: Added 1-year top artists");
-    await write(
-      join(".", "data", "last-fm-music", "yearly", "top-artists", `${date.format("YYYY")}.json`),
-      JSON.stringify(topArtistsYearly.topartists.artist, null, 2)
-    );
-  }
-
-  console.log("Last.fm: Completed");
-};
-
-export const legacy = async () => {
-  const CONCURRENCY = 10;
-  const startDate = dayjs("2014-03-11");
-  let count = 0;
-  const pool = new PromisePool(async () => {
-    const date = dayjs(startDate).add(count, "day");
-    if (dayjs().diff(date, "day") === 0) return null;
-    count++;
-    return getLastFmTracks(date.toDate());
-  }, CONCURRENCY);
-  await pool.start();
-  console.log("Done!");
-};
-
-export const summary = async () => {};
+  async summary() {}
+}

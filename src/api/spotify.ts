@@ -21,119 +21,12 @@ const api = new SpotifyAPI({
   refreshToken: config("spotifyRefreshToken") || "example",
 });
 
-export const daily = async () => {
-  console.log("Spotify: Starting...");
-  const data = await api.refreshAccessToken();
-  api.setAccessToken(data.body.access_token);
-  console.log("Spotify: Refreshed access token");
-
-  if (integrationConfig("spotify").history) {
-    const history = await api.getMyRecentlyPlayedTracks();
-    const itemsByDate: { [index: string]: Array<any> } = {};
-    for await (const item of history.body.items) {
-      const date = dayjs(item.played_at);
-      const year = date.format("YYYY");
-      const month = date.format("MM");
-      const day = date.format("DD");
-      itemsByDate[`${year}/${month}/${day}`] = itemsByDate[`${year}/${month}/${day}`] || [];
-      itemsByDate[`${year}/${month}/${day}`].push(cleanSpotifyTrackResponse(item.track));
-    }
-    for await (const key of Object.keys(itemsByDate)) {
-      await write(
-        join(".", "data", "spotify-music", "daily", key, "listening-history.json"),
-        JSON.stringify(itemsByDate[key], null, 2)
-      );
-    }
-    console.log("Spotify: Added listening history");
-  }
-
-  const date = dayjs();
-  const year = date.format("YYYY");
-  const month = date.format("MM");
-  const day = date.format("DD");
-
-  if (integrationConfig("spotify").library) {
-    const library = await api.getMySavedTracks();
-    const libraryItems = cleanSpotifyTracksResponse(library.body.items.map((item) => item.track)).map(
-      (item, index) => ({
-        ...item,
-        date: library.body.items[index].added_at,
-      })
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "library.json"),
-      JSON.stringify(libraryItems, null, 2)
-    );
-    console.log("Spotify: Added library");
-  }
-
-  if (integrationConfig("spotify")["top-tracks"]) {
-    const shortTermTopTracks = cleanSpotifyTracksResponse(
-      (await api.getMyTopTracks({ time_range: "short_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "short-term.json"),
-      JSON.stringify(shortTermTopTracks, null, 2)
-    );
-    console.log("Spotify: Added short-term top tracks");
-
-    const mediumTermTopTracks = cleanSpotifyTracksResponse(
-      (await api.getMyTopTracks({ time_range: "medium_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "medium-term.json"),
-      JSON.stringify(mediumTermTopTracks, null, 2)
-    );
-    console.log("Spotify: Added medium-term top tracks");
-
-    const longTermTopTracks = cleanSpotifyTracksResponse(
-      (await api.getMyTopTracks({ time_range: "long_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "long-term.json"),
-      JSON.stringify(longTermTopTracks, null, 2)
-    );
-    console.log("Spotify: Added long-term top tracks");
-  }
-
-  if (integrationConfig("spotify")["top-artists"]) {
-    const shortTermTopArtists = cleanSpotifyArtistsResponse(
-      (await api.getMyTopArtists({ time_range: "short_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "short-term.json"),
-      JSON.stringify(shortTermTopArtists, null, 2)
-    );
-    console.log("Spotify: Added short-term top artists");
-
-    const mediumTermTopArtists = cleanSpotifyArtistsResponse(
-      (await api.getMyTopArtists({ time_range: "medium_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "medium-term.json"),
-      JSON.stringify(mediumTermTopArtists, null, 2)
-    );
-    console.log("Spotify: Added medium-term top artists");
-
-    const longTermTopArtists = cleanSpotifyArtistsResponse(
-      (await api.getMyTopArtists({ time_range: "long_term" })).body.items
-    );
-    await write(
-      join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "long-term.json"),
-      JSON.stringify(longTermTopArtists, null, 2)
-    );
-    console.log("Spotify: Added long-term top artists");
-  }
-
-  console.log("Spotify: Completed");
-};
-
-export const callbackUrl = async () => {
+const callbackUrl = async () => {
   const authorizeURL = api.createAuthorizeURL(["user-top-read", "user-library-read"], "state");
   console.log(authorizeURL);
 };
 
-export const authTokens = async (code: string) => {
+const authTokens = async (code: string) => {
   const { body } = await api.authorizationCodeGrant(code);
   console.log("Access token", body.access_token);
   console.log("Refresh token", body.refresh_token);
@@ -200,12 +93,124 @@ const cleanSpotifyTrackResponse = (
   return track;
 };
 
-export const cleanSpotifyArtistsResponse = (artists: SpotifyApi.ArtistObjectFull[]) => {
+const cleanSpotifyArtistsResponse = (artists: SpotifyApi.ArtistObjectFull[]) => {
   return artists.map((artist) => cleanSpotifyArtistResponse(artist));
 };
 
-export const cleanSpotifyTracksResponse = (tracks: SpotifyApi.TrackObjectFull[]) => {
+const cleanSpotifyTracksResponse = (tracks: SpotifyApi.TrackObjectFull[]) => {
   return tracks.map((track) => cleanSpotifyTrackResponse(track));
 };
 
-export const summary = async () => {};
+export default class Spotify implements Integration {
+  name = "spotify";
+  cli = { callbackUrl, authTokens };
+
+  async update() {
+    console.log("Spotify: Starting...");
+    const data = await api.refreshAccessToken();
+    api.setAccessToken(data.body.access_token);
+    console.log("Spotify: Refreshed access token");
+
+    if (integrationConfig("spotify").history) {
+      const history = await api.getMyRecentlyPlayedTracks();
+      const itemsByDate: { [index: string]: Array<any> } = {};
+      for await (const item of history.body.items) {
+        const date = dayjs(item.played_at);
+        const year = date.format("YYYY");
+        const month = date.format("MM");
+        const day = date.format("DD");
+        itemsByDate[`${year}/${month}/${day}`] = itemsByDate[`${year}/${month}/${day}`] || [];
+        itemsByDate[`${year}/${month}/${day}`].push(cleanSpotifyTrackResponse(item.track));
+      }
+      for await (const key of Object.keys(itemsByDate)) {
+        await write(
+          join(".", "data", "spotify-music", "daily", key, "listening-history.json"),
+          JSON.stringify(itemsByDate[key], null, 2)
+        );
+      }
+      console.log("Spotify: Added listening history");
+    }
+
+    const date = dayjs();
+    const year = date.format("YYYY");
+    const month = date.format("MM");
+    const day = date.format("DD");
+
+    if (integrationConfig("spotify").library) {
+      const library = await api.getMySavedTracks();
+      const libraryItems = cleanSpotifyTracksResponse(library.body.items.map((item) => item.track)).map(
+        (item, index) => ({
+          ...item,
+          date: library.body.items[index].added_at,
+        })
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "library.json"),
+        JSON.stringify(libraryItems, null, 2)
+      );
+      console.log("Spotify: Added library");
+    }
+
+    if (integrationConfig("spotify")["top-tracks"]) {
+      const shortTermTopTracks = cleanSpotifyTracksResponse(
+        (await api.getMyTopTracks({ time_range: "short_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "short-term.json"),
+        JSON.stringify(shortTermTopTracks, null, 2)
+      );
+      console.log("Spotify: Added short-term top tracks");
+
+      const mediumTermTopTracks = cleanSpotifyTracksResponse(
+        (await api.getMyTopTracks({ time_range: "medium_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "medium-term.json"),
+        JSON.stringify(mediumTermTopTracks, null, 2)
+      );
+      console.log("Spotify: Added medium-term top tracks");
+
+      const longTermTopTracks = cleanSpotifyTracksResponse(
+        (await api.getMyTopTracks({ time_range: "long_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-tracks", "long-term.json"),
+        JSON.stringify(longTermTopTracks, null, 2)
+      );
+      console.log("Spotify: Added long-term top tracks");
+    }
+
+    if (integrationConfig("spotify")["top-artists"]) {
+      const shortTermTopArtists = cleanSpotifyArtistsResponse(
+        (await api.getMyTopArtists({ time_range: "short_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "short-term.json"),
+        JSON.stringify(shortTermTopArtists, null, 2)
+      );
+      console.log("Spotify: Added short-term top artists");
+
+      const mediumTermTopArtists = cleanSpotifyArtistsResponse(
+        (await api.getMyTopArtists({ time_range: "medium_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "medium-term.json"),
+        JSON.stringify(mediumTermTopArtists, null, 2)
+      );
+      console.log("Spotify: Added medium-term top artists");
+
+      const longTermTopArtists = cleanSpotifyArtistsResponse(
+        (await api.getMyTopArtists({ time_range: "long_term" })).body.items
+      );
+      await write(
+        join(".", "data", "spotify-music", "daily", year, month, day, "top-artists", "long-term.json"),
+        JSON.stringify(longTermTopArtists, null, 2)
+      );
+      console.log("Spotify: Added long-term top artists");
+    }
+
+    console.log("Spotify: Completed");
+  }
+  async legacy() {}
+  async summary() {}
+}

@@ -126,121 +126,124 @@ const updateOuraDailyData = async (date: Date) => {
   }
 };
 
-export const daily = async () => {
-  console.log("Oura: Starting...");
-  for await (const day of [0, 1, 2, 3, 4]) {
-    await updateOuraDailyData(dayjs().subtract(day, "day").toDate());
-    console.log("Oura: Added data");
-  }
-  console.log("Oura: Added daily summaries");
-};
+export default class OuraRing implements Integration {
+  name = "oura-ring";
+  cli = {};
 
-export const summary = async () => {
-  for await (const key of [
-    "steps",
-    "total",
-    "cal_active",
-    "cal_total",
-    "rem",
-    "awake",
-    "deep",
-    "duration",
-    "efficiency",
-    "light",
-  ]) {
-    for await (const category of ["oura-readiness", "oura-activity", "oura-weight", "oura-sleep"]) {
-      // Find all items that have daily
-      if (
-        (await pathExists(join(".", "data", category, "daily"))) &&
-        (await lstat(join(".", "data", category, "daily"))).isDirectory()
-      ) {
-        const years = (await readdir(join(".", "data", category, "daily"))).filter((i) => /^\d+$/.test(i));
-        const yearData: { [index: string]: number } = {};
-        const weeklyData: {
-          [index: string]: {
-            [index: string]: { [index: string]: number };
-          };
-        } = {};
-        for await (const year of years) {
-          let yearlySum = 0;
-          const monthlyData: { [index: string]: number } = {};
-          [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
-          const months = (await readdir(join(".", "data", category, "daily", year))).filter((i) => /^\d+$/.test(i));
-          for await (const month of months) {
-            let monthlySum = 0;
-            const dailyData: { [index: string]: number } = {};
-            [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
-              .slice(1)
-              .forEach((val) => (dailyData[val.toString()] = 0));
-            const days = (await readdir(join(".", "data", category, "daily", year, month))).filter((i) =>
-              /^\d+$/.test(i)
-            );
-            for await (const day of days) {
-              let json = await readJson(join(".", "data", category, "daily", year, month, day, "sessions.json"));
-              let dailySum = 0;
-              if (Array.isArray(json)) {
-                json.forEach((record: any) => {
-                  if (key in record) {
-                    dailySum += record[key];
-                  }
+  async update() {
+    console.log("Oura: Starting...");
+    for await (const day of [0, 1, 2, 3, 4]) {
+      await updateOuraDailyData(dayjs().subtract(day, "day").toDate());
+      console.log("Oura: Added data");
+    }
+    console.log("Oura: Added daily summaries");
+  }
+  async legacy() {
+    const CONCURRENCY = 1;
+    const startDate = dayjs("2020-08-15");
+    let count = 0;
+    const pool = new PromisePool(async () => {
+      const date = dayjs(startDate).add(count, "day");
+      if (dayjs().diff(date, "day") === 0) return null;
+      count++;
+      return updateOuraDailyData(date.toDate());
+    }, CONCURRENCY);
+    await pool.start();
+    console.log("Done!");
+  }
+  async summary() {
+    for await (const key of [
+      "steps",
+      "total",
+      "cal_active",
+      "cal_total",
+      "rem",
+      "awake",
+      "deep",
+      "duration",
+      "efficiency",
+      "light",
+    ]) {
+      for await (const category of ["oura-readiness", "oura-activity", "oura-weight", "oura-sleep"]) {
+        // Find all items that have daily
+        if (
+          (await pathExists(join(".", "data", category, "daily"))) &&
+          (await lstat(join(".", "data", category, "daily"))).isDirectory()
+        ) {
+          const years = (await readdir(join(".", "data", category, "daily"))).filter((i) => /^\d+$/.test(i));
+          const yearData: { [index: string]: number } = {};
+          const weeklyData: {
+            [index: string]: {
+              [index: string]: { [index: string]: number };
+            };
+          } = {};
+          for await (const year of years) {
+            let yearlySum = 0;
+            const monthlyData: { [index: string]: number } = {};
+            [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
+            const months = (await readdir(join(".", "data", category, "daily", year))).filter((i) => /^\d+$/.test(i));
+            for await (const month of months) {
+              let monthlySum = 0;
+              const dailyData: { [index: string]: number } = {};
+              [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
+                .slice(1)
+                .forEach((val) => (dailyData[val.toString()] = 0));
+              const days = (await readdir(join(".", "data", category, "daily", year, month))).filter((i) =>
+                /^\d+$/.test(i)
+              );
+              for await (const day of days) {
+                let json = await readJson(join(".", "data", category, "daily", year, month, day, "sessions.json"));
+                let dailySum = 0;
+                if (Array.isArray(json)) {
+                  json.forEach((record: any) => {
+                    if (key in record) {
+                      dailySum += record[key];
+                    }
+                  });
+                }
+                if (dailySum) dailyData[parseInt(day)] = dailySum;
+                monthlySum += dailySum;
+                yearlySum += dailySum;
+                Object.keys(dailyData).forEach((key) => {
+                  const weekNumber = dayjs(`${year}-${month}-${key}`).week();
+                  weeklyData[year] = weeklyData[year] || {};
+                  weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
+                  weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
                 });
               }
-              if (dailySum) dailyData[parseInt(day)] = dailySum;
-              monthlySum += dailySum;
-              yearlySum += dailySum;
-              Object.keys(dailyData).forEach((key) => {
-                const weekNumber = dayjs(`${year}-${month}-${key}`).week();
-                weeklyData[year] = weeklyData[year] || {};
-                weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
-                weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
-              });
+              if (Object.keys(dailyData).length && Object.values(dailyData).reduce((a, b) => a + b, 0))
+                await write(
+                  join(".", "data", category, "summary", key.replace(/_/g, "-"), "days", year, `${month}.json`),
+                  JSON.stringify(dailyData, null, 2)
+                );
+              if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
             }
-            if (Object.keys(dailyData).length && Object.values(dailyData).reduce((a, b) => a + b, 0))
+            if (Object.keys(monthlyData).length && Object.values(monthlyData).reduce((a, b) => a + b, 0))
               await write(
-                join(".", "data", category, "summary", key.replace(/_/g, "-"), "days", year, `${month}.json`),
-                JSON.stringify(dailyData, null, 2)
+                join(".", "data", category, "summary", key.replace(/_/g, "-"), "months", `${year}.json`),
+                JSON.stringify(monthlyData, null, 2)
               );
-            if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
+            if (yearlySum) yearData[parseInt(year)] = yearlySum;
           }
-          if (Object.keys(monthlyData).length && Object.values(monthlyData).reduce((a, b) => a + b, 0))
+          if (Object.keys(yearData).length && Object.values(yearData).reduce((a, b) => a + b, 0))
             await write(
-              join(".", "data", category, "summary", key.replace(/_/g, "-"), "months", `${year}.json`),
-              JSON.stringify(monthlyData, null, 2)
+              join(".", "data", category, "summary", key.replace(/_/g, "-"), "years.json"),
+              JSON.stringify(yearData, null, 2)
             );
-          if (yearlySum) yearData[parseInt(year)] = yearlySum;
-        }
-        if (Object.keys(yearData).length && Object.values(yearData).reduce((a, b) => a + b, 0))
-          await write(
-            join(".", "data", category, "summary", key.replace(/_/g, "-"), "years.json"),
-            JSON.stringify(yearData, null, 2)
-          );
-        for await (const year of Object.keys(weeklyData)) {
-          for await (const week of Object.keys(weeklyData[year])) {
-            if (
-              Object.keys(weeklyData[year][week]).length &&
-              Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
-            )
-              await write(
-                join(".", "data", category, "summary", key.replace(/_/g, "-"), "weeks", year, `${week}.json`),
-                JSON.stringify(weeklyData[year][week], null, 2)
-              );
+          for await (const year of Object.keys(weeklyData)) {
+            for await (const week of Object.keys(weeklyData[year])) {
+              if (
+                Object.keys(weeklyData[year][week]).length &&
+                Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
+              )
+                await write(
+                  join(".", "data", category, "summary", key.replace(/_/g, "-"), "weeks", year, `${week}.json`),
+                  JSON.stringify(weeklyData[year][week], null, 2)
+                );
+            }
           }
         }
       }
     }
   }
-};
-
-export const legacy = async () => {
-  const CONCURRENCY = 1;
-  const startDate = dayjs("2020-08-15");
-  let count = 0;
-  const pool = new PromisePool(async () => {
-    const date = dayjs(startDate).add(count, "day");
-    if (dayjs().diff(date, "day") === 0) return null;
-    count++;
-    return updateOuraDailyData(date.toDate());
-  }, CONCURRENCY);
-  await pool.start();
-  console.log("Done!");
-};
+}

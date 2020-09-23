@@ -31,109 +31,114 @@ const updateWakatimeDailyData = async (date: Date) => {
   }
 };
 
-export const daily = async () => {
-  console.log("WakaTime: Starting...");
-  for await (const day of [0, 1, 2, 3, 4]) {
-    await updateWakatimeDailyData(dayjs().subtract(day, "day").toDate());
-    console.log("WakaTime: Added data");
+export default class Wakatime implements Integration {
+  name = "wakatime";
+  cli = {};
+
+  async update() {
+    console.log("WakaTime: Starting...");
+    for await (const day of [0, 1, 2, 3, 4]) {
+      await updateWakatimeDailyData(dayjs().subtract(day, "day").toDate());
+      console.log("WakaTime: Added data");
+    }
+    console.log("WakaTime: Added daily summaries");
   }
-  console.log("WakaTime: Added daily summaries");
-};
-
-export const legacy = async () => {
-  const CONCURRENCY = 3;
-  const startDate = dayjs("2020-07-20");
-  let count = 0;
-  const pool = new PromisePool(async () => {
-    const date = dayjs(startDate).add(count, "day");
-    if (dayjs().diff(date, "day") === 0) return null;
-    count++;
-    return updateWakatimeDailyData(date.toDate());
-  }, CONCURRENCY);
-  await pool.start();
-  console.log("Done!");
-};
-
-export const summary = async () => {
-  if (
-    (await pathExists(join(".", "data", "wakatime-time-tracking", "daily"))) &&
-    (await lstat(join(".", "data", "wakatime-time-tracking", "daily"))).isDirectory()
-  ) {
-    const years = (await readdir(join(".", "data", "wakatime-time-tracking", "daily"))).filter((i) => /^\d+$/.test(i));
-    const yearData: { [index: string]: number } = {};
-    const weeklyData: {
-      [index: string]: {
-        [index: string]: { [index: string]: number };
-      };
-    } = {};
-    for await (const year of years) {
-      let yearlySum = 0;
-      const monthlyData: { [index: string]: number } = {};
-      [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
-      const months = (await readdir(join(".", "data", "wakatime-time-tracking", "daily", year))).filter((i) =>
+  async legacy() {
+    const CONCURRENCY = 3;
+    const startDate = dayjs("2020-07-20");
+    let count = 0;
+    const pool = new PromisePool(async () => {
+      const date = dayjs(startDate).add(count, "day");
+      if (dayjs().diff(date, "day") === 0) return null;
+      count++;
+      return updateWakatimeDailyData(date.toDate());
+    }, CONCURRENCY);
+    await pool.start();
+    console.log("Done!");
+  }
+  async summary() {
+    if (
+      (await pathExists(join(".", "data", "wakatime-time-tracking", "daily"))) &&
+      (await lstat(join(".", "data", "wakatime-time-tracking", "daily"))).isDirectory()
+    ) {
+      const years = (await readdir(join(".", "data", "wakatime-time-tracking", "daily"))).filter((i) =>
         /^\d+$/.test(i)
       );
-      for await (const month of months) {
-        let monthlySum = 0;
-        const dailyData: { [index: string]: number } = {};
-        [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
-          .slice(1)
-          .forEach((val) => (dailyData[val.toString()] = 0));
-        const days = (await readdir(join(".", "data", "wakatime-time-tracking", "daily", year, month))).filter((i) =>
+      const yearData: { [index: string]: number } = {};
+      const weeklyData: {
+        [index: string]: {
+          [index: string]: { [index: string]: number };
+        };
+      } = {};
+      for await (const year of years) {
+        let yearlySum = 0;
+        const monthlyData: { [index: string]: number } = {};
+        [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
+        const months = (await readdir(join(".", "data", "wakatime-time-tracking", "daily", year))).filter((i) =>
           /^\d+$/.test(i)
         );
-        for await (const day of days) {
-          let json = await readJson(
-            join(".", "data", "wakatime-time-tracking", "daily", year, month, day, "daily-summary.json")
+        for await (const month of months) {
+          let monthlySum = 0;
+          const dailyData: { [index: string]: number } = {};
+          [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
+            .slice(1)
+            .forEach((val) => (dailyData[val.toString()] = 0));
+          const days = (await readdir(join(".", "data", "wakatime-time-tracking", "daily", year, month))).filter((i) =>
+            /^\d+$/.test(i)
           );
-          let dailySum = 0;
-          if (Array.isArray(json)) {
-            json.forEach((record: any) => {
-              if (record.grand_total && record.grand_total.total_seconds) {
-                dailySum += record.grand_total.total_seconds;
-              }
+          for await (const day of days) {
+            let json = await readJson(
+              join(".", "data", "wakatime-time-tracking", "daily", year, month, day, "daily-summary.json")
+            );
+            let dailySum = 0;
+            if (Array.isArray(json)) {
+              json.forEach((record: any) => {
+                if (record.grand_total && record.grand_total.total_seconds) {
+                  dailySum += record.grand_total.total_seconds;
+                }
+              });
+            }
+            if (dailySum) dailyData[parseInt(day)] = dailySum;
+            monthlySum += dailySum;
+            yearlySum += dailySum;
+            Object.keys(dailyData).forEach((key) => {
+              const weekNumber = dayjs(`${year}-${month}-${key}`).week();
+              weeklyData[year] = weeklyData[year] || {};
+              weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
+              weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
             });
           }
-          if (dailySum) dailyData[parseInt(day)] = dailySum;
-          monthlySum += dailySum;
-          yearlySum += dailySum;
-          Object.keys(dailyData).forEach((key) => {
-            const weekNumber = dayjs(`${year}-${month}-${key}`).week();
-            weeklyData[year] = weeklyData[year] || {};
-            weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
-            weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
-          });
+          if (Object.keys(dailyData).length)
+            await write(
+              join(".", "data", "wakatime-time-tracking", "summary", "days", year, `${month}.json`),
+              JSON.stringify(dailyData, null, 2)
+            );
+          if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
         }
-        if (Object.keys(dailyData).length)
+        if (Object.keys(monthlyData).length)
           await write(
-            join(".", "data", "wakatime-time-tracking", "summary", "days", year, `${month}.json`),
-            JSON.stringify(dailyData, null, 2)
+            join(".", "data", "wakatime-time-tracking", "summary", "months", `${year}.json`),
+            JSON.stringify(monthlyData, null, 2)
           );
-        if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
+        if (yearlySum) yearData[parseInt(year)] = yearlySum;
       }
-      if (Object.keys(monthlyData).length)
+      if (Object.keys(yearData).length)
         await write(
-          join(".", "data", "wakatime-time-tracking", "summary", "months", `${year}.json`),
-          JSON.stringify(monthlyData, null, 2)
+          join(".", "data", "wakatime-time-tracking", "summary", "years.json"),
+          JSON.stringify(yearData, null, 2)
         );
-      if (yearlySum) yearData[parseInt(year)] = yearlySum;
-    }
-    if (Object.keys(yearData).length)
-      await write(
-        join(".", "data", "wakatime-time-tracking", "summary", "years.json"),
-        JSON.stringify(yearData, null, 2)
-      );
-    for await (const year of Object.keys(weeklyData)) {
-      for await (const week of Object.keys(weeklyData[year])) {
-        if (
-          Object.keys(weeklyData[year][week]).length &&
-          Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
-        )
-          await write(
-            join(".", "data", "wakatime-time-tracking", "summary", "weeks", year, `${week}.json`),
-            JSON.stringify(weeklyData[year][week], null, 2)
-          );
+      for await (const year of Object.keys(weeklyData)) {
+        for await (const week of Object.keys(weeklyData[year])) {
+          if (
+            Object.keys(weeklyData[year][week]).length &&
+            Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
+          )
+            await write(
+              join(".", "data", "wakatime-time-tracking", "summary", "weeks", year, `${week}.json`),
+              JSON.stringify(weeklyData[year][week], null, 2)
+            );
+        }
       }
     }
   }
-};
+}

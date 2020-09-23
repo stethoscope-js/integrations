@@ -70,264 +70,269 @@ const updateGoogleFitDailyData = async (date: Date) => {
   if (sources.data.session) await saveData(sources.data.session);
 };
 
-export const daily = async () => {
-  console.log("Google Fit: Starting...");
-  for await (const day of [0, 1, 2, 3, 4]) {
-    await updateGoogleFitDailyData(dayjs().subtract(day, "day").toDate());
-    console.log("Google Fit: Added data");
-  }
-  console.log("Google Fit: Added daily summaries");
-};
+export default class GoogleFit implements Integration {
+  name = "google-fit";
+  cli = {};
 
-export const summary = async () => {
-  for await (const category of [
-    "aerobics",
-    "archery",
-    "badminton",
-    "baseball",
-    "basketball",
-    "biathlon",
-    "biking",
-    "biking-hand",
-    "biking-mountain",
-    "biking-road",
-    "biking-spinning",
-    "biking-stationary",
-    "biking-utility",
-    "boxing",
-    "calisthenics",
-    "circuit-training",
-    "cricket",
-    "crossfit",
-    "curling",
-    "dancing",
-    "diving",
-    "elevator",
-    "elliptical",
-    "ergometer",
-    "escalator",
-    "extra-status",
-    "fencing",
-    "football-american",
-    "football-australian",
-    "football-soccer",
-    "frisbee-disc",
-    "gardening",
-    "golf",
-    "guided-breathing",
-    "gymnastics",
-    "handball",
-    "high-intensity-interval-training",
-    "hiking",
-    "hockey",
-    "horseback-riding",
-    "housework",
-    "ice-skating",
-    "interval-training",
-    "in-vehicle",
-    "jump-rope",
-    "kayaking",
-    "kettlebell-training",
-    "kickboxing",
-    "kick-scooter",
-    "kitesurfing",
-    "martial-arts",
-    "meditation",
-    "mime-type-prefix",
-    "mixed-martial-arts",
-    "on-foot",
-    "other",
-    "p90x",
-    "paragliding",
-    "pilates",
-    "polo",
-    "racquetball",
-    "rock-climbing",
-    "rowing",
-    "rowing-machine",
-    "rugby",
-    "running",
-    "running-jogging",
-    "running-sand",
-    "running-treadmill",
-    "sailing",
-    "scuba-diving",
-    "skateboarding",
-    "skating",
-    "skating-cross",
-    "skating-indoor",
-    "skating-inline",
-    "skiing",
-    "skiing-back-country",
-    "skiing-cross-country",
-    "skiing-downhill",
-    "skiing-kite",
-    "skiing-roller",
-    "sledding",
-    "sleep",
-    "sleep-awake",
-    "sleep-deep",
-    "sleep-light",
-    "sleep-rem",
-    "snowboarding",
-    "snowmobile",
-    "snowshoeing",
-    "softball",
-    "squash",
-    "stair-climbing",
-    "stair-climbing-machine",
-    "standup-paddleboarding",
-    "status-active",
-    "status-completed",
-    "still",
-    "strength-training",
-    "surfing",
-    "swimming",
-    "swimming-open-water",
-    "swimming-pool",
-    "table-tennis",
-    "team-sports",
-    "tennis",
-    "tilting",
-    "treadmill",
-    "unknown",
-    "volleyball",
-    "volleyball-beach",
-    "volleyball-indoor",
-    "wakeboarding",
-    "walking",
-    "walking-fitness",
-    "walking-nordic",
-    "walking-stroller",
-    "walking-treadmill",
-    "water-polo",
-    "weightlifting",
-    "wheelchair",
-    "windsurfing",
-    "yoga",
-    "zumba",
-  ]) {
-    // Find all items that have daily
-    if (
-      (await pathExists(join(".", "data", `google-fit-${category}`, "daily"))) &&
-      (await lstat(join(".", "data", `google-fit-${category}`, "daily"))).isDirectory()
-    ) {
-      const years = (await readdir(join(".", "data", `google-fit-${category}`, "daily"))).filter((i) =>
-        /^\d+$/.test(i)
-      );
-      const yearData: { [index: string]: number } = {};
-      const weeklyData: {
-        [index: string]: {
-          [index: string]: { [index: string]: number };
-        };
-      } = {};
-      for await (const year of years) {
-        let yearlySum = 0;
-        const monthlyData: { [index: string]: number } = {};
-        [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
-        const months = (await readdir(join(".", "data", `google-fit-${category}`, "daily", year))).filter((i) =>
+  async update() {
+    console.log("Google Fit: Starting...");
+    for await (const day of [0, 1, 2, 3, 4]) {
+      await updateGoogleFitDailyData(dayjs().subtract(day, "day").toDate());
+      console.log("Google Fit: Added data");
+    }
+    console.log("Google Fit: Added daily summaries");
+  }
+
+  async legacy() {
+    const CONCURRENCY = 1;
+    const startDate = dayjs("2020-07-29");
+    let count = 0;
+    const pool = new PromisePool(async () => {
+      const date = dayjs(startDate).add(count, "day");
+      if (dayjs().diff(date, "day") === 0) return null;
+      count++;
+      return updateGoogleFitDailyData(date.toDate());
+    }, CONCURRENCY);
+    await pool.start();
+    console.log("Done!");
+  }
+
+  async summary() {
+    for await (const category of [
+      "aerobics",
+      "archery",
+      "badminton",
+      "baseball",
+      "basketball",
+      "biathlon",
+      "biking",
+      "biking-hand",
+      "biking-mountain",
+      "biking-road",
+      "biking-spinning",
+      "biking-stationary",
+      "biking-utility",
+      "boxing",
+      "calisthenics",
+      "circuit-training",
+      "cricket",
+      "crossfit",
+      "curling",
+      "dancing",
+      "diving",
+      "elevator",
+      "elliptical",
+      "ergometer",
+      "escalator",
+      "extra-status",
+      "fencing",
+      "football-american",
+      "football-australian",
+      "football-soccer",
+      "frisbee-disc",
+      "gardening",
+      "golf",
+      "guided-breathing",
+      "gymnastics",
+      "handball",
+      "high-intensity-interval-training",
+      "hiking",
+      "hockey",
+      "horseback-riding",
+      "housework",
+      "ice-skating",
+      "interval-training",
+      "in-vehicle",
+      "jump-rope",
+      "kayaking",
+      "kettlebell-training",
+      "kickboxing",
+      "kick-scooter",
+      "kitesurfing",
+      "martial-arts",
+      "meditation",
+      "mime-type-prefix",
+      "mixed-martial-arts",
+      "on-foot",
+      "other",
+      "p90x",
+      "paragliding",
+      "pilates",
+      "polo",
+      "racquetball",
+      "rock-climbing",
+      "rowing",
+      "rowing-machine",
+      "rugby",
+      "running",
+      "running-jogging",
+      "running-sand",
+      "running-treadmill",
+      "sailing",
+      "scuba-diving",
+      "skateboarding",
+      "skating",
+      "skating-cross",
+      "skating-indoor",
+      "skating-inline",
+      "skiing",
+      "skiing-back-country",
+      "skiing-cross-country",
+      "skiing-downhill",
+      "skiing-kite",
+      "skiing-roller",
+      "sledding",
+      "sleep",
+      "sleep-awake",
+      "sleep-deep",
+      "sleep-light",
+      "sleep-rem",
+      "snowboarding",
+      "snowmobile",
+      "snowshoeing",
+      "softball",
+      "squash",
+      "stair-climbing",
+      "stair-climbing-machine",
+      "standup-paddleboarding",
+      "status-active",
+      "status-completed",
+      "still",
+      "strength-training",
+      "surfing",
+      "swimming",
+      "swimming-open-water",
+      "swimming-pool",
+      "table-tennis",
+      "team-sports",
+      "tennis",
+      "tilting",
+      "treadmill",
+      "unknown",
+      "volleyball",
+      "volleyball-beach",
+      "volleyball-indoor",
+      "wakeboarding",
+      "walking",
+      "walking-fitness",
+      "walking-nordic",
+      "walking-stroller",
+      "walking-treadmill",
+      "water-polo",
+      "weightlifting",
+      "wheelchair",
+      "windsurfing",
+      "yoga",
+      "zumba",
+    ]) {
+      // Find all items that have daily
+      if (
+        (await pathExists(join(".", "data", `google-fit-${category}`, "daily"))) &&
+        (await lstat(join(".", "data", `google-fit-${category}`, "daily"))).isDirectory()
+      ) {
+        const years = (await readdir(join(".", "data", `google-fit-${category}`, "daily"))).filter((i) =>
           /^\d+$/.test(i)
         );
-        for await (const month of months) {
-          let monthlySum = 0;
-          const dailyData: { [index: string]: number } = {};
-          [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
-            .slice(1)
-            .forEach((val) => (dailyData[val.toString()] = 0));
-          const days = (await readdir(join(".", "data", `google-fit-${category}`, "daily", year, month))).filter((i) =>
+        const yearData: { [index: string]: number } = {};
+        const weeklyData: {
+          [index: string]: {
+            [index: string]: { [index: string]: number };
+          };
+        } = {};
+        for await (const year of years) {
+          let yearlySum = 0;
+          const monthlyData: { [index: string]: number } = {};
+          [...Array(13).keys()].slice(1).forEach((val) => (monthlyData[val.toString()] = 0));
+          const months = (await readdir(join(".", "data", `google-fit-${category}`, "daily", year))).filter((i) =>
             /^\d+$/.test(i)
           );
-          for await (const day of days) {
-            let json = await readJson(
-              join(".", "data", `google-fit-${category}`, "daily", year, month, day, "sessions.json")
-            );
-            let dailySum = 0;
-            if (Array.isArray(json)) {
-              // If it's a Google Fit health record
-              try {
-                json = json
-                  .sort(
-                    (a, b) =>
-                      dayjs(a.startTime).unix() - dayjs(b.startTime).unix() ||
-                      dayjs(a.endTime).unix() - dayjs(b.endTime).unix()
-                  )
-                  .reduce((r: Array<{ startTime: string; endTime: string }>, a) => {
-                    const last = r[r.length - 1] || [];
-                    if (
-                      dayjs(last.startTime).unix() <= dayjs(a.startTime).unix() &&
-                      dayjs(a.startTime).unix() <= dayjs(last.endTime).unix()
-                    ) {
-                      if (dayjs(last.endTime).unix() < dayjs(a.endTime).unix()) {
-                        last.endTime = a.endTime;
+          for await (const month of months) {
+            let monthlySum = 0;
+            const dailyData: { [index: string]: number } = {};
+            [...Array(dayjs(`${year}-${month}-10`).daysInMonth()).keys()]
+              .slice(1)
+              .forEach((val) => (dailyData[val.toString()] = 0));
+            const days = (
+              await readdir(join(".", "data", `google-fit-${category}`, "daily", year, month))
+            ).filter((i) => /^\d+$/.test(i));
+            for await (const day of days) {
+              let json = await readJson(
+                join(".", "data", `google-fit-${category}`, "daily", year, month, day, "sessions.json")
+              );
+              let dailySum = 0;
+              if (Array.isArray(json)) {
+                // If it's a Google Fit health record
+                try {
+                  json = json
+                    .sort(
+                      (a, b) =>
+                        dayjs(a.startTime).unix() - dayjs(b.startTime).unix() ||
+                        dayjs(a.endTime).unix() - dayjs(b.endTime).unix()
+                    )
+                    .reduce((r: Array<{ startTime: string; endTime: string }>, a) => {
+                      const last = r[r.length - 1] || [];
+                      if (
+                        dayjs(last.startTime).unix() <= dayjs(a.startTime).unix() &&
+                        dayjs(a.startTime).unix() <= dayjs(last.endTime).unix()
+                      ) {
+                        if (dayjs(last.endTime).unix() < dayjs(a.endTime).unix()) {
+                          last.endTime = a.endTime;
+                        }
+                        return r;
                       }
-                      return r;
-                    }
-                    return r.concat(a);
-                  }, []);
-              } catch (error) {}
-              json.forEach((record: any) => {
-                if (record.startTime && record.endTime) {
-                  dailySum += dayjs(record.endTime).diff(record.startTime, "second");
-                } else if (record.total) {
-                  dailySum += record.total;
-                }
+                      return r.concat(a);
+                    }, []);
+                } catch (error) {}
+                json.forEach((record: any) => {
+                  if (record.startTime && record.endTime) {
+                    dailySum += dayjs(record.endTime).diff(record.startTime, "second");
+                  } else if (record.total) {
+                    dailySum += record.total;
+                  }
+                });
+              }
+              if (dailySum) dailyData[parseInt(day)] = dailySum;
+              monthlySum += dailySum;
+              yearlySum += dailySum;
+              Object.keys(dailyData).forEach((key) => {
+                const weekNumber = dayjs(`${year}-${month}-${key}`).week();
+                weeklyData[year] = weeklyData[year] || {};
+                weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
+                weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
               });
             }
-            if (dailySum) dailyData[parseInt(day)] = dailySum;
-            monthlySum += dailySum;
-            yearlySum += dailySum;
-            Object.keys(dailyData).forEach((key) => {
-              const weekNumber = dayjs(`${year}-${month}-${key}`).week();
-              weeklyData[year] = weeklyData[year] || {};
-              weeklyData[year][weekNumber] = weeklyData[year][weekNumber] || {};
-              weeklyData[year][weekNumber][`${year}-${month}-${key}`] = dailyData[key];
-            });
+            if (Object.keys(dailyData).length)
+              await write(
+                join(".", "data", `google-fit-${category}`, "summary", "days", year, `${month}.json`),
+                JSON.stringify(dailyData, null, 2)
+              );
+            if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
           }
-          if (Object.keys(dailyData).length)
+          if (Object.keys(monthlyData).length)
             await write(
-              join(".", "data", `google-fit-${category}`, "summary", "days", year, `${month}.json`),
-              JSON.stringify(dailyData, null, 2)
+              join(".", "data", `google-fit-${category}`, "summary", "months", `${year}.json`),
+              JSON.stringify(monthlyData, null, 2)
             );
-          if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
+          if (yearlySum) yearData[parseInt(year)] = yearlySum;
         }
-        if (Object.keys(monthlyData).length)
+        if (Object.keys(yearData).length)
           await write(
-            join(".", "data", `google-fit-${category}`, "summary", "months", `${year}.json`),
-            JSON.stringify(monthlyData, null, 2)
+            join(".", "data", `google-fit-${category}`, "summary", "years.json"),
+            JSON.stringify(yearData, null, 2)
           );
-        if (yearlySum) yearData[parseInt(year)] = yearlySum;
-      }
-      if (Object.keys(yearData).length)
-        await write(
-          join(".", "data", `google-fit-${category}`, "summary", "years.json"),
-          JSON.stringify(yearData, null, 2)
-        );
-      for await (const year of Object.keys(weeklyData)) {
-        for await (const week of Object.keys(weeklyData[year])) {
-          if (
-            Object.keys(weeklyData[year][week]).length &&
-            Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
-          )
-            await write(
-              join(".", "data", `google-fit-${category}`, "summary", "weeks", year, `${week}.json`),
-              JSON.stringify(weeklyData[year][week], null, 2)
-            );
+        for await (const year of Object.keys(weeklyData)) {
+          for await (const week of Object.keys(weeklyData[year])) {
+            if (
+              Object.keys(weeklyData[year][week]).length &&
+              Object.values(weeklyData[year][week]).reduce((a, b) => a + b, 0)
+            )
+              await write(
+                join(".", "data", `google-fit-${category}`, "summary", "weeks", year, `${week}.json`),
+                JSON.stringify(weeklyData[year][week], null, 2)
+              );
+          }
         }
       }
     }
   }
-};
-
-export const legacy = async () => {
-  const CONCURRENCY = 1;
-  const startDate = dayjs("2020-07-29");
-  let count = 0;
-  const pool = new PromisePool(async () => {
-    const date = dayjs(startDate).add(count, "day");
-    if (dayjs().diff(date, "day") === 0) return null;
-    count++;
-    return updateGoogleFitDailyData(date.toDate());
-  }, CONCURRENCY);
-  await pool.start();
-  console.log("Done!");
-};
+}
