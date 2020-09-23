@@ -1,13 +1,14 @@
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import axios from "axios";
+import dayjs from "dayjs";
+import isLeapYear from "dayjs/plugin/isLeapYear";
+import isoWeeksInYear from "dayjs/plugin/isoWeeksInYear";
+import week from "dayjs/plugin/weekOfYear";
+import PromisePool from "es6-promise-pool";
+import { lstat, pathExists, readdir, readJson } from "fs-extra";
 import { join } from "path";
 import { integrationConfig, write } from "../common";
-import PromisePool from "es6-promise-pool";
-import dayjs from "dayjs";
-import { readdir, readJson, pathExists, lstat } from "fs-extra";
-import isoWeeksInYear from "dayjs/plugin/isoWeeksInYear";
-import isLeapYear from "dayjs/plugin/isLeapYear";
-import week from "dayjs/plugin/weekOfYear";
+import type { Integration } from "../integration";
 
 dayjs.extend(week);
 dayjs.extend(isoWeeksInYear);

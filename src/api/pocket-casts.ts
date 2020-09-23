@@ -1,10 +1,11 @@
-import PocketCasts from "pocketcasts";
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
-import { join } from "path";
-import { readdir, readJson } from "fs-extra";
-import { integrationConfig, write, zero } from "../common";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
+import { readdir, readJson } from "fs-extra";
+import { join } from "path";
+import PocketCasts from "pocketcasts";
+import { integrationConfig, write, zero } from "../common";
+import type { Integration } from "../integration";
 dayjs.extend(week);
 cosmicSync("stethoscope");
 

@@ -1,5 +1,5 @@
 /** Stethoscope Integration */
-interface Integration {
+export interface Integration {
   /** Slugified name of the integration */
   name: string;
 

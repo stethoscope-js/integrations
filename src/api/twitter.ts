@@ -1,10 +1,11 @@
 import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
+import { lstat, pathExists, readdir, readJson } from "fs-extra";
 import { join } from "path";
 import Twitter from "twitter-lite";
 import { integrationConfig, write } from "../common";
-import { lstat, pathExists, readdir, readJson } from "fs-extra";
+import type { Integration } from "../integration";
 
 dayjs.extend(week);
 cosmicSync("stethoscope");

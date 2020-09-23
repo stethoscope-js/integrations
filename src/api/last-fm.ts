@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import LastFm from "@toplast/lastfm";
 import { ITrack } from "@toplast/lastfm/lib/common/common.interface";
 import { integrationConfig, write } from "../common";
+import type { Integration } from "../integration";
 import { join } from "path";
 import PromisePool from "es6-promise-pool";
 import week from "dayjs/plugin/weekOfYear";

@@ -1,8 +1,9 @@
 import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import axios from "axios";
 import dayjs from "dayjs";
-import { integrationConfig, write } from "../common";
 import { join } from "path";
+import { integrationConfig, write } from "../common";
+import type { Integration } from "../integration";
 cosmicSync("stethoscope");
 
 const apiKey = config("clockifyApiKey");

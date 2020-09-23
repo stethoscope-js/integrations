@@ -1,14 +1,15 @@
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
-import { google, fitness_v1 } from "googleapis";
-import { integrationConfig, write } from "../common";
-import { join } from "path";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import slugify from "@sindresorhus/slugify";
 import dayjs from "dayjs";
-import PromisePool from "es6-promise-pool";
-import { readdir, readJson, pathExists, lstat } from "fs-extra";
-import isoWeeksInYear from "dayjs/plugin/isoWeeksInYear";
 import isLeapYear from "dayjs/plugin/isLeapYear";
+import isoWeeksInYear from "dayjs/plugin/isoWeeksInYear";
 import week from "dayjs/plugin/weekOfYear";
+import PromisePool from "es6-promise-pool";
+import { lstat, pathExists, readdir, readJson } from "fs-extra";
+import { fitness_v1, google } from "googleapis";
+import { join } from "path";
+import { integrationConfig, write } from "../common";
+import type { Integration } from "../integration";
 
 dayjs.extend(week);
 dayjs.extend(isoWeeksInYear);

@@ -1,9 +1,10 @@
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
-import SpotifyAPI from "spotify-web-api-node";
-import { join } from "path";
-import { integrationConfig, write } from "../common";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
+import { join } from "path";
+import SpotifyAPI from "spotify-web-api-node";
+import { integrationConfig, write } from "../common";
+import type { Integration } from "../integration";
 dayjs.extend(week);
 cosmicSync("stethoscope");
 

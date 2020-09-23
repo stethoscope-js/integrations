@@ -1,11 +1,12 @@
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import axios from "axios";
-import { join } from "path";
-import { integrationConfig, write } from "../common";
-import PromisePool from "es6-promise-pool";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
-import { pathExists, lstat, readdir, readJson } from "fs-extra";
+import PromisePool from "es6-promise-pool";
+import { lstat, pathExists, readdir, readJson } from "fs-extra";
+import { join } from "path";
+import { integrationConfig, write } from "../common";
+import type { Integration } from "../integration";
 dayjs.extend(week);
 cosmicSync("stethoscope");
 
