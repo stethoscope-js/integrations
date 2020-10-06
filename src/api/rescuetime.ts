@@ -41,7 +41,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
   const day = dayjs(date).format("DD");
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
 
-  if (integrationConfig("rescuetime")["top-categories"]) {
+  if (integrationConfig("rescuetime", "top-categories")) {
     console.log("RescueTime: Adding data for", date);
     const topCategories = (
       await axios.get(
@@ -65,7 +65,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
       JSON.stringify(topCategoriesData, null, 2)
     );
   }
-  if (integrationConfig("rescuetime")["top-activities"]) {
+  if (integrationConfig("rescuetime", "top-activities")) {
     const topActivities = (
       await axios.get(
         `https://www.rescuetime.com/anapi/data?format=json&key=${config(
@@ -89,7 +89,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
     );
   }
 
-  if (integrationConfig("rescuetime").overview) {
+  if (integrationConfig("rescuetime", "overview")) {
     const topOverview = (
       await axios.get(
         `https://www.rescuetime.com/anapi/data?format=json&key=${config(

@@ -22,13 +22,13 @@ export default class PocketCastsI implements Integration {
     console.log("Pocket Casts: Starting...");
     await pocketCasts.login();
 
-    if (integrationConfig("pocket-casts").library) {
+    if (integrationConfig("pocket-casts", "library")) {
       const podcasts = (await pocketCasts.getList()).podcasts;
       await write(join(".", "data", "pocket-casts-podcasts", "library.json"), JSON.stringify(podcasts, null, 2));
       console.log("Pocket Casts: Added library");
     }
 
-    if (integrationConfig("pocket-casts").history) {
+    if (integrationConfig("pocket-casts", "history")) {
       let items: Episode[] = [];
       try {
         const years = await readdir(join(".", "data", "pocket-casts-podcasts", "daily"));

@@ -24,7 +24,7 @@ interface Tweet {
 }
 
 const getRecentTweets = async (count: number = 100) => {
-  if (integrationConfig("twitter").tweets) {
+  if (integrationConfig("twitter", "tweets")) {
     const response: Array<Tweet> = await client.get("statuses/user_timeline", {
       screen_name: config("twitterScreenName") || "",
       count,
@@ -46,7 +46,7 @@ const getRecentTweets = async (count: number = 100) => {
     }
   }
 
-  if (integrationConfig("twitter").likes) {
+  if (integrationConfig("twitter", "likes")) {
     const response: Array<Tweet> = await client.get("favorites/list", {
       screen_name: config("twitterScreenName") || "",
       count,

@@ -24,7 +24,7 @@ type ClockifyResult = {
 }[];
 
 const getTimeData = async (date: Date) => {
-  if (integrationConfig("clockify").entries) {
+  if (integrationConfig("clockify", "entries")) {
     const {
       data,
     }: {

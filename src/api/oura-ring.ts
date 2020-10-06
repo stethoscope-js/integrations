@@ -16,7 +16,7 @@ cosmicSync("stethoscope");
 
 const updateOuraDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
-  if (integrationConfig("oura-ring").weight) {
+  if (integrationConfig("oura-ring", "weight")) {
     const {
       data: healthData,
     }: {
@@ -43,7 +43,7 @@ const updateOuraDailyData = async (date: Date) => {
     );
     console.log("Oura: Added summary data");
   }
-  if (integrationConfig("oura-ring").sleep) {
+  if (integrationConfig("oura-ring", "sleep")) {
     const {
       data: sleepData,
     }: {
@@ -70,7 +70,7 @@ const updateOuraDailyData = async (date: Date) => {
       JSON.stringify(sleepData.sleep, null, 2)
     );
   }
-  if (integrationConfig("oura-ring").readiness) {
+  if (integrationConfig("oura-ring", "readiness")) {
     const {
       data: readinessData,
     }: {
@@ -97,7 +97,7 @@ const updateOuraDailyData = async (date: Date) => {
       JSON.stringify(readinessData.readiness, null, 2)
     );
   }
-  if (integrationConfig("oura-ring").activity) {
+  if (integrationConfig("oura-ring", "activity")) {
     const {
       data: activityData,
     }: {

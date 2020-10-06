@@ -28,7 +28,7 @@ const fetchTracks = async (date: Date, page = 1) => {
 };
 
 const getLastFmTracks = async (date: Date, page = 1) => {
-  if (integrationConfig("last-fm").history) {
+  if (integrationConfig("last-fm", "history")) {
     console.log("Last.fm: Fetching tracks for", dayjs(date).format("YYYY-MM-DD"));
     const tracks = await fetchTracks(date, page);
     const itemsByDate: { [index: string]: ITrack[] } = {};
@@ -62,7 +62,7 @@ export default class LastDotFm implements Integration {
     }
     console.log("Last.fm: Added daily summaries");
 
-    if (integrationConfig("last-fm")["top-albums"]) {
+    if (integrationConfig("last-fm", "top-albums")) {
       const topAlbumsWeekly = await lastFm.user.getTopAlbums({
         user: config("lastfmUsername"),
         period: "7day",
@@ -75,7 +75,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-tracks"]) {
+    if (integrationConfig("last-fm", "top-tracks")) {
       const topTracksWeekly = await lastFm.user.getTopTracks({
         user: config("lastfmUsername"),
         period: "7day",
@@ -88,7 +88,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-artists"]) {
+    if (integrationConfig("last-fm", "top-artists")) {
       const topArtistsWeekly = await lastFm.user.getTopArtists({
         user: config("lastfmUsername"),
         period: "7day",
@@ -101,7 +101,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-albums"]) {
+    if (integrationConfig("last-fm", "top-albums")) {
       const topAlbumsMonthly = await lastFm.user.getTopAlbums({
         user: config("lastfmUsername"),
         period: "1month",
@@ -114,7 +114,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-tracks"]) {
+    if (integrationConfig("last-fm", "top-tracks")) {
       const topTracksMonthly = await lastFm.user.getTopTracks({
         user: config("lastfmUsername"),
         period: "1month",
@@ -127,7 +127,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-artists"]) {
+    if (integrationConfig("last-fm", "top-artists")) {
       const topArtistsMonthly = await lastFm.user.getTopArtists({
         user: config("lastfmUsername"),
         period: "1month",
@@ -140,7 +140,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-albums"]) {
+    if (integrationConfig("last-fm", "top-albums")) {
       const topAlbumsYearly = await lastFm.user.getTopAlbums({
         user: config("lastfmUsername"),
         period: "12month",
@@ -153,7 +153,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-tracks"]) {
+    if (integrationConfig("last-fm", "top-tracks")) {
       const topTracksYearly = await lastFm.user.getTopTracks({
         user: config("lastfmUsername"),
         period: "12month",
@@ -166,7 +166,7 @@ export default class LastDotFm implements Integration {
       );
     }
 
-    if (integrationConfig("last-fm")["top-artists"]) {
+    if (integrationConfig("last-fm", "top-artists")) {
       const topArtistsYearly = await lastFm.user.getTopArtists({
         user: config("lastfmUsername"),
         period: "12month",

@@ -112,7 +112,7 @@ export default class Spotify implements Integration {
     api.setAccessToken(data.body.access_token);
     console.log("Spotify: Refreshed access token");
 
-    if (integrationConfig("spotify").history) {
+    if (integrationConfig("spotify", "history")) {
       const history = await api.getMyRecentlyPlayedTracks();
       const itemsByDate: { [index: string]: Array<any> } = {};
       for await (const item of history.body.items) {
@@ -137,7 +137,7 @@ export default class Spotify implements Integration {
     const month = date.format("MM");
     const day = date.format("DD");
 
-    if (integrationConfig("spotify").library) {
+    if (integrationConfig("spotify", "library")) {
       const library = await api.getMySavedTracks();
       const libraryItems = cleanSpotifyTracksResponse(library.body.items.map((item) => item.track)).map(
         (item, index) => ({
@@ -152,7 +152,7 @@ export default class Spotify implements Integration {
       console.log("Spotify: Added library");
     }
 
-    if (integrationConfig("spotify")["top-tracks"]) {
+    if (integrationConfig("spotify", "top-tracks")) {
       const shortTermTopTracks = cleanSpotifyTracksResponse(
         (await api.getMyTopTracks({ time_range: "short_term" })).body.items
       );
@@ -181,7 +181,7 @@ export default class Spotify implements Integration {
       console.log("Spotify: Added long-term top tracks");
     }
 
-    if (integrationConfig("spotify")["top-artists"]) {
+    if (integrationConfig("spotify", "top-artists")) {
       const shortTermTopArtists = cleanSpotifyArtistsResponse(
         (await api.getMyTopArtists({ time_range: "short_term" })).body.items
       );

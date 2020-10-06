@@ -50,7 +50,7 @@ const saveData = async (data: fitness_v1.Schema$Session[]) => {
     }
   });
   for await (const sessionType of Object.keys(itemsByDateAndType)) {
-    if (integrationConfig("google-fit")[sessionType])
+    if (integrationConfig("google-fit", sessionType))
       for await (const sessionDate of Object.keys(itemsByDateAndType[sessionType])) {
         await write(
           join(".", "data", `google-fit-${sessionType.replace(/_/g, "-")}`, "daily", sessionDate, "sessions.json"),

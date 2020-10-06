@@ -2,15 +2,11 @@ import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import { ensureFile, writeFile } from "fs-extra";
 cosmicSync("stethoscope");
 
-export const integrationConfig = (service: string) => {
+export const integrationConfig = (service: string, key: string) => {
   const configs: { [index: string]: { [index: string]: boolean } } = config("integrations") || {};
   const items = configs[service] || {};
-  if (items.all) {
-    Object.keys(items).forEach((key) => {
-      items[key] = true;
-    });
-  }
-  return items;
+  if (items.all) return true;
+  return items[key];
 };
 
 export const write = async (name: string, contents: any) => {

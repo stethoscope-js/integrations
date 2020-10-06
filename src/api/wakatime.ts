@@ -14,7 +14,7 @@ const client = new WakaTimeClient(config("wakatimeApiKey") || "example");
 const updateWakatimeDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
   console.log("WakaTime: Adding data for", formattedDate);
-  if (integrationConfig("wakatime").summary) {
+  if (integrationConfig("wakatime", "summary")) {
     const summary = await client.getMySummary({
       dateRange: {
         startDate: formattedDate,
