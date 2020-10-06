@@ -1,3 +1,10 @@
+# [v2.1.2](https://github.com/stethoscope-js/integrations/compare/v2.1.1...v2.1.2) (2020-10-06)
+
+## 🐛 Bug fixes
+
+- [`c3d3d9a`](https://github.com/stethoscope-js/integrations/commit/c3d3d9a)  Await for legacy result
+- [`7beb74f`](https://github.com/stethoscope-js/integrations/commit/7beb74f)  Support for all in integrations
+
 # [v2.1.1](https://github.com/stethoscope-js/integrations/compare/v2.1.0...v2.1.1) (2020-10-06)
 
 ## ♻️ Updates
