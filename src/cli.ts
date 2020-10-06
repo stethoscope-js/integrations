@@ -28,6 +28,18 @@ const cli = async () => {
         }
       }
     );
+  } else if (command === "summary") {
+    const integration = process.argv[3];
+    if (!integration) throw new Error("Provide an integration");
+
+    [Spotify, Rescuetime, LastFm, PocketCasts, Wakatime, Clockify, GoogleFit, OuraRing, Goodreads, Twitter].forEach(
+      (ClassName) => {
+        const integrationObject = new ClassName();
+        if (integration === integrationObject.name) {
+          integrationObject.summary();
+        }
+      }
+    );
   } else {
     throw new Error(`CLI command '${command}' not recognized`);
   }
