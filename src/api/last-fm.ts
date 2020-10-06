@@ -185,9 +185,8 @@ export default class LastDotFm implements Integration {
     const startDate = dayjs(start);
     for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      return getLastFmTracks(date.toDate());
+      await getLastFmTracks(date.toDate());
     }
-    console.log("Done!");
     console.log("Done!");
   }
   async summary() {}

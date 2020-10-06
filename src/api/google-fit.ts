@@ -85,16 +85,11 @@ export default class GoogleFit implements Integration {
   }
 
   async legacy(start: string) {
-    const CONCURRENCY = 1;
     const startDate = dayjs(start);
-    let count = 0;
-    const pool = new PromisePool(async () => {
+    for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      if (dayjs().diff(date, "day") === 0) return null;
-      count++;
-      return updateGoogleFitDailyData(date.toDate());
-    }, CONCURRENCY);
-    await pool.start();
+      await updateGoogleFitDailyData(date.toDate());
+    }
     console.log("Done!");
   }
 

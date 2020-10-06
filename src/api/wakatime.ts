@@ -47,7 +47,7 @@ export default class Wakatime implements Integration {
     const startDate = dayjs(start);
     for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      return updateWakatimeDailyData(date.toDate());
+      await updateWakatimeDailyData(date.toDate());
     }
     console.log("Done!");
   }

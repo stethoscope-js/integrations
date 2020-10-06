@@ -142,7 +142,7 @@ export default class OuraRing implements Integration {
     const startDate = dayjs(start);
     for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      return updateOuraDailyData(date.toDate());
+      await updateOuraDailyData(date.toDate());
     }
     console.log("Done!");
   }
