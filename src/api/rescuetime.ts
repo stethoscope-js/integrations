@@ -2,7 +2,6 @@ import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import axios from "axios";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
-import PromisePool from "es6-promise-pool";
 import { lstat, pathExists, readdir, readJson } from "fs-extra";
 import { join } from "path";
 import { integrationConfig, write } from "../common";
@@ -42,7 +41,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
   const day = dayjs(date).format("DD");
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
 
-  if (integrationConfig("rescue-time")["top-categories"]) {
+  if (integrationConfig("rescuetime")["top-categories"]) {
     console.log("RescueTime: Adding data for", date);
     const topCategories = (
       await axios.get(
@@ -66,7 +65,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
       JSON.stringify(topCategoriesData, null, 2)
     );
   }
-  if (integrationConfig("rescue-time")["top-activities"]) {
+  if (integrationConfig("rescuetime")["top-activities"]) {
     const topActivities = (
       await axios.get(
         `https://www.rescuetime.com/anapi/data?format=json&key=${config(
@@ -90,7 +89,7 @@ const updateRescueTimeDailyData = async (date: Date) => {
     );
   }
 
-  if (integrationConfig("rescue-time").overview) {
+  if (integrationConfig("rescuetime").overview) {
     const topOverview = (
       await axios.get(
         `https://www.rescuetime.com/anapi/data?format=json&key=${config(
@@ -132,16 +131,11 @@ export default class RescueTime implements Integration {
     console.log("RescueTime: Added daily summaries");
   }
   async legacy(start: string) {
-    const CONCURRENCY = 10;
     const startDate = dayjs(start);
-    let count = 0;
-    const pool = new PromisePool(async () => {
+    for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      if (dayjs().diff(date, "day") === 0) return null;
-      count++;
-      return updateRescueTimeDailyData(date.toDate());
-    }, CONCURRENCY);
-    await pool.start();
+      await updateRescueTimeDailyData(date.toDate());
+    }
     console.log("Done!");
   }
   async summary() {

@@ -1,12 +1,11 @@
-import { cosmicSync, config } from "@anandchowdhary/cosmic";
-import dayjs from "dayjs";
+import { config, cosmicSync } from "@anandchowdhary/cosmic";
 import LastFm from "@toplast/lastfm";
 import { ITrack } from "@toplast/lastfm/lib/common/common.interface";
+import dayjs from "dayjs";
+import week from "dayjs/plugin/weekOfYear";
+import { join } from "path";
 import { integrationConfig, write } from "../common";
 import type { Integration } from "../integration";
-import { join } from "path";
-import PromisePool from "es6-promise-pool";
-import week from "dayjs/plugin/weekOfYear";
 dayjs.extend(week);
 cosmicSync("stethoscope");
 
@@ -183,16 +182,12 @@ export default class LastDotFm implements Integration {
     console.log("Last.fm: Completed");
   }
   async legacy(start: string) {
-    const CONCURRENCY = 10;
     const startDate = dayjs(start);
-    let count = 0;
-    const pool = new PromisePool(async () => {
+    for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
-      if (dayjs().diff(date, "day") === 0) return null;
-      count++;
       return getLastFmTracks(date.toDate());
-    }, CONCURRENCY);
-    await pool.start();
+    }
+    console.log("Done!");
     console.log("Done!");
   }
   async summary() {}
