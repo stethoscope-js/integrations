@@ -1,3 +1,9 @@
+# [v2.2.1](https://github.com/stethoscope-js/integrations/compare/v2.2.0...v2.2.1) (2020-10-06)
+
+## ♻️ Updates
+
+- [`279f677`](https://github.com/stethoscope-js/integrations/commit/279f677)  Generate nested summary in Oura
+
 # [v2.2.0](https://github.com/stethoscope-js/integrations/compare/v2.1.2...v2.2.0) (2020-10-06)
 
 ## ✨ New features

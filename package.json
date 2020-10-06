@@ -1,6 +1,6 @@
 {
   "name": "@stethoscope-js/integrations",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Node.js/TypeScript packages to track your life data using Stethoscope",
   "files": [
     "dist"
