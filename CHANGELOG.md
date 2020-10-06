@@ -1,3 +1,9 @@
+# [v2.1.1](https://github.com/stethoscope-js/integrations/compare/v2.1.0...v2.1.1) (2020-10-06)
+
+## ♻️ Updates
+
+- [`2ae5c16`](https://github.com/stethoscope-js/integrations/commit/2ae5c16)  Use for await...of in legacy
+
 # [v2.1.0](https://github.com/stethoscope-js/integrations/compare/v2.0.0...v2.1.0) (2020-09-23)
 
 ## ✨ New features
