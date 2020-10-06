@@ -1,3 +1,13 @@
+# [v2.2.0](https://github.com/stethoscope-js/integrations/compare/v2.1.2...v2.2.0) (2020-10-06)
+
+## ✨ New features
+
+- [`b42373c`](https://github.com/stethoscope-js/integrations/commit/b42373c)  Add CLI command for summary
+
+## ♻️ Updates
+
+- [`fbc3685`](https://github.com/stethoscope-js/integrations/commit/fbc3685)  Create nested Oura API
+
 # [v2.1.2](https://github.com/stethoscope-js/integrations/compare/v2.1.1...v2.1.2) (2020-10-06)
 
 ## 🐛 Bug fixes
