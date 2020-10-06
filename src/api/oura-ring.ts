@@ -156,7 +156,7 @@ export default class OuraRing implements Integration {
         (await pathExists(join(".", "data", category, "daily"))) &&
         (await lstat(join(".", "data", category, "daily"))).isDirectory()
       ) {
-        for await (const file of ["top-categories.json", "top-overview.json"]) {
+        for await (const file of ["sessions.json"]) {
           const years = (await readdir(join(".", "data", category, "daily"))).filter((i) => /^\d+$/.test(i));
           const yearData: { [index: string]: CategoryData } = {};
           const weeklyData: {
@@ -195,6 +195,15 @@ export default class OuraRing implements Integration {
                       "duration",
                       "efficiency",
                       "light",
+                      "score",
+                      "score_activity_balance",
+                      "score_hrv_balance",
+                      "score_previous_day",
+                      "score_previous_night",
+                      "score_recovery_index",
+                      "score_resting_hr",
+                      "score_sleep_balance",
+                      "score_temperature",
                     ].forEach((dataType) => {
                       if (typeof record[dataType] === "number") {
                         dailySum[dataType] = dailySum[dataType] || 0;
@@ -202,6 +211,11 @@ export default class OuraRing implements Integration {
                       }
                     });
                   });
+                } else if (typeof json === "object") {
+                  if (typeof (json as any).weight === "number") {
+                    dailySum.weight = dailySum.weight || 0;
+                    dailySum.weight += (json as any).weight;
+                  }
                 }
                 if (Object.keys(dailySum).length) dailyData[parseInt(day)] = dailySum;
                 Object.keys(dailySum).forEach((key) => {
@@ -221,23 +235,20 @@ export default class OuraRing implements Integration {
 
               if (Object.keys(dailyData).length)
                 await write(
-                  join(".", "data", category, "summary", file.replace(".json", ""), "days", year, `${month}.json`),
+                  join(".", "data", category, "summary", "days", year, `${month}.json`),
                   JSON.stringify(dailyData, null, 2)
                 );
               if (monthlySum) monthlyData[parseInt(month)] = monthlySum;
             }
             if (Object.keys(monthlyData).length)
               await write(
-                join(".", "data", category, "summary", file.replace(".json", ""), "months", `${year}.json`),
+                join(".", "data", category, "summary", "months", `${year}.json`),
                 JSON.stringify(monthlyData, null, 2)
               );
             if (yearlySum) yearData[parseInt(year)] = yearlySum;
           }
           if (Object.keys(yearData).length)
-            await write(
-              join(".", "data", category, "summary", file.replace(".json", ""), "years.json"),
-              JSON.stringify(yearData, null, 2)
-            );
+            await write(join(".", "data", category, "summary", "years.json"), JSON.stringify(yearData, null, 2));
           for await (const year of Object.keys(weeklyData)) {
             for await (const week of Object.keys(weeklyData[year])) {
               if (
@@ -245,7 +256,7 @@ export default class OuraRing implements Integration {
                 Object.values(weeklyData[year][week]).reduce((a, b) => a + Object.keys(b).length, 0)
               )
                 await write(
-                  join(".", "data", category, "summary", file.replace(".json", ""), "weeks", year, `${week}.json`),
+                  join(".", "data", category, "summary", "weeks", year, `${week}.json`),
                   JSON.stringify(weeklyData[year][week], null, 2)
                 );
             }
