@@ -1,3 +1,51 @@
+## [v2.2.2](https://github.com/stethoscope-js/integrations/compare/v2.2.1...v2.2.2) (2020-11-23)
+
+### ⬆️ Dependency updates
+
+- [`fa31a9e`](https://github.com/stethoscope-js/integrations/commit/fa31a9e)  Bump jest from 26.5.0 to 26.5.2
+- [`ece0510`](https://github.com/stethoscope-js/integrations/commit/ece0510)  Bump pascalgn/automerge-action from v0.11.0 to v0.12.0
+- [`effcc28`](https://github.com/stethoscope-js/integrations/commit/effcc28)  Bump spotify-web-api-node from 4.0.0 to 5.0.0
+- [`7d4f18c`](https://github.com/stethoscope-js/integrations/commit/7d4f18c)  Bump jest from 26.5.2 to 26.5.3
+- [`ab09b91`](https://github.com/stethoscope-js/integrations/commit/ab09b91)  Bump @types/fs-extra from 9.0.1 to 9.0.2
+- [`86bf7dc`](https://github.com/stethoscope-js/integrations/commit/86bf7dc)  Bump semantic-release from 17.1.2 to 17.2.0
+- [`040c4e6`](https://github.com/stethoscope-js/integrations/commit/040c4e6)  Bump semantic-release from 17.2.0 to 17.2.1
+- [`fdade04`](https://github.com/stethoscope-js/integrations/commit/fdade04)  Bump dayjs from 1.9.1 to 1.9.3
+- [`57d4d7f`](https://github.com/stethoscope-js/integrations/commit/57d4d7f)  Bump jest from 26.5.3 to 26.6.0
+- [`522a00c`](https://github.com/stethoscope-js/integrations/commit/522a00c)  Bump vsoch/pull-request-action from 1.0.10 to 1.0.11
+- [`f9fae48`](https://github.com/stethoscope-js/integrations/commit/f9fae48)  Bump @types/jest from 26.0.14 to 26.0.15
+- [`51f745b`](https://github.com/stethoscope-js/integrations/commit/51f745b)  Bump ts-jest from 26.4.1 to 26.4.2
+- [`8b58bb6`](https://github.com/stethoscope-js/integrations/commit/8b58bb6)  Bump dayjs from 1.9.3 to 1.9.4
+- [`56189b3`](https://github.com/stethoscope-js/integrations/commit/56189b3)  Bump jest from 26.6.0 to 26.6.1
+- [`5224e26`](https://github.com/stethoscope-js/integrations/commit/5224e26)  Bump axios from 0.20.0 to 0.21.0
+- [`2c43179`](https://github.com/stethoscope-js/integrations/commit/2c43179)  Bump typescript from 4.0.3 to 4.0.5
+- [`55c89ba`](https://github.com/stethoscope-js/integrations/commit/55c89ba)  Bump ts-jest from 26.4.2 to 26.4.3
+- [`4193ab1`](https://github.com/stethoscope-js/integrations/commit/4193ab1)  Bump @koj/config from 1.2.5 to 1.2.6
+- [`28ca00b`](https://github.com/stethoscope-js/integrations/commit/28ca00b)  Bump googleapis from 61.0.0 to 62.0.0
+- [`e287a5c`](https://github.com/stethoscope-js/integrations/commit/e287a5c)  Bump @koj/config from 1.2.6 to 1.2.7
+- [`6422f3d`](https://github.com/stethoscope-js/integrations/commit/6422f3d)  Bump semantic-release from 17.2.1 to 17.2.2
+- [`86c0ee2`](https://github.com/stethoscope-js/integrations/commit/86c0ee2)  Bump jest from 26.6.1 to 26.6.2
+- [`20886ef`](https://github.com/stethoscope-js/integrations/commit/20886ef)  Bump googleapis from 62.0.0 to 63.0.0
+- [`07a7334`](https://github.com/stethoscope-js/integrations/commit/07a7334)  Bump actions/checkout from v2.3.3 to v2.3.4
+- [`cb6f2d9`](https://github.com/stethoscope-js/integrations/commit/cb6f2d9)  Bump jest from 26.6.2 to 26.6.3
+- [`954e087`](https://github.com/stethoscope-js/integrations/commit/954e087)  Bump @types/fs-extra from 9.0.2 to 9.0.3
+- [`0843bc9`](https://github.com/stethoscope-js/integrations/commit/0843bc9)  Bump dayjs from 1.9.4 to 1.9.5
+- [`fbef4e2`](https://github.com/stethoscope-js/integrations/commit/fbef4e2)  Bump @koj/config from 1.2.7 to 1.2.8
+- [`3da3240`](https://github.com/stethoscope-js/integrations/commit/3da3240)  Bump @types/spotify-web-api-node from 4.0.1 to 4.0.2
+- [`e6aba0b`](https://github.com/stethoscope-js/integrations/commit/e6aba0b)  Bump googleapis from 63.0.0 to 64.0.0
+- [`e4dc4dd`](https://github.com/stethoscope-js/integrations/commit/e4dc4dd)  Bump ts-jest from 26.4.3 to 26.4.4
+- [`8cbc7f8`](https://github.com/stethoscope-js/integrations/commit/8cbc7f8)  Bump dayjs from 1.9.5 to 1.9.6
+- [`d18f8e4`](https://github.com/stethoscope-js/integrations/commit/d18f8e4)  Bump @types/fs-extra from 9.0.3 to 9.0.4
+- [`d797757`](https://github.com/stethoscope-js/integrations/commit/d797757)  Bump @semantic-release/github from 7.1.1 to 7.1.2
+- [`77367ea`](https://github.com/stethoscope-js/integrations/commit/77367ea)  Bump semantic-release from 17.2.2 to 17.2.3
+- [`488bf1f`](https://github.com/stethoscope-js/integrations/commit/488bf1f)  Bump googleapis from 64.0.0 to 65.0.0
+- [`6898c70`](https://github.com/stethoscope-js/integrations/commit/6898c70)  Bump @semantic-release/npm from 7.0.6 to 7.0.8
+- [`78659cf`](https://github.com/stethoscope-js/integrations/commit/78659cf)  Bump @semantic-release/github from 7.1.2 to 7.2.0
+- [`5c5543f`](https://github.com/stethoscope-js/integrations/commit/5c5543f)  Bump @koj/config from 1.2.8 to 1.2.9
+- [`4f699aa`](https://github.com/stethoscope-js/integrations/commit/4f699aa)  Bump semantic-release from 17.2.3 to 17.2.4
+- [`9f75060`](https://github.com/stethoscope-js/integrations/commit/9f75060)  Bump typescript from 4.0.5 to 4.1.2
+- [`cf8714b`](https://github.com/stethoscope-js/integrations/commit/cf8714b)  Update koj-co/template
+- [`b48b9e2`](https://github.com/stethoscope-js/integrations/commit/b48b9e2)  Bump vsoch/pull-request-action from 1.0.11 to 1.0.12
+
 ## [v2.2.1](https://github.com/stethoscope-js/integrations/compare/v2.2.0...v2.2.1) (2020-10-06)
 
 ### ♻️ Updates
