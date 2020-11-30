@@ -1,3 +1,9 @@
+## [v2.2.3](https://github.com/stethoscope-js/integrations/compare/v2.2.2...v2.2.3) (2020-11-30)
+
+### ⬆️ Dependency updates
+
+- [`37ebb1b`](https://github.com/stethoscope-js/integrations/commit/37ebb1b)  Bump semantic-release from 17.2.4 to 17.3.0
+
 ## [v2.2.2](https://github.com/stethoscope-js/integrations/compare/v2.2.1...v2.2.2) (2020-11-23)
 
 ### ⬆️ Dependency updates
