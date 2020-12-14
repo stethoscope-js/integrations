@@ -1,3 +1,16 @@
+## v2.2.5 (2020-12-14)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.5) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.4...v2.2.5) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.5) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.5.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.5.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`cab41f2`](https://github.com/stethoscope-js/integrations/commit/cab41f2)  Bump dayjs from 1.9.6 to 1.9.7
+- [`5439466`](https://github.com/stethoscope-js/integrations/commit/5439466)  Bump @types/jest from 26.0.16 to 26.0.17
+- [`57305c0`](https://github.com/stethoscope-js/integrations/commit/57305c0)  Bump @types/jest from 26.0.17 to 26.0.18
+- [`ac26874`](https://github.com/stethoscope-js/integrations/commit/ac26874)  Bump actions/setup-node from v2.1.2 to v2.1.3
+- [`352ba69`](https://github.com/stethoscope-js/integrations/commit/352ba69)  Bump @types/jest from 26.0.18 to 26.0.19
+- [`bfc7e68`](https://github.com/stethoscope-js/integrations/commit/bfc7e68)  Bump @types/fs-extra from 9.0.4 to 9.0.5
+
 ## v2.2.4 (2020-12-07)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.4) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.3...v2.2.4) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.4) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.4.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.4.tar.gz))
