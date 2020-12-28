@@ -1,3 +1,14 @@
+## v2.2.7 (2020-12-28)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.7) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.6...v2.2.7) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.7) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.7.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.7.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`90ea3a8`](https://github.com/stethoscope-js/integrations/commit/90ea3a8)  Bump vsoch/pull-request-action from 1.0.12 to 1.0.13
+- [`146cf15`](https://github.com/stethoscope-js/integrations/commit/146cf15)  Bump pascalgn/automerge-action from v0.12.0 to v0.13.0
+- [`f7212c3`](https://github.com/stethoscope-js/integrations/commit/f7212c3)  Bump axios from 0.21.0 to 0.21.1
+- [`d18281b`](https://github.com/stethoscope-js/integrations/commit/d18281b)  Bump @types/fs-extra from 9.0.5 to 9.0.6
+
 ## v2.2.6 (2020-12-21)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.6) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.5...v2.2.6) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.6) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.6.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.6.tar.gz))
