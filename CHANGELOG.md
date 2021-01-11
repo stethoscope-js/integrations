@@ -1,3 +1,15 @@
+## v2.2.9 (2021-01-11)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.9) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.8...v2.2.9) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.9) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.9.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.9.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`2541193`](https://github.com/stethoscope-js/integrations/commit/2541193)  Bump googleapis from 65.0.0 to 66.0.0
+- [`221ae30`](https://github.com/stethoscope-js/integrations/commit/221ae30)  Bump dayjs from 1.9.8 to 1.10.1
+- [`07ab954`](https://github.com/stethoscope-js/integrations/commit/07ab954)  Bump dayjs from 1.10.1 to 1.10.2
+- [`ea0b20f`](https://github.com/stethoscope-js/integrations/commit/ea0b20f)  Bump @types/jest from 26.0.19 to 26.0.20
+- [`8fb9325`](https://github.com/stethoscope-js/integrations/commit/8fb9325)  Bump googleapis from 66.0.0 to 67.0.0
+
 ## v2.2.8 (2021-01-04)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.8) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.7...v2.2.8) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.8) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.8.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.8.tar.gz))
