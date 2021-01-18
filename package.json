@@ -44,7 +44,7 @@
     "@toplast/lastfm": "^0.1.2",
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.14",
-    "@types/spotify-web-api-node": "^4.0.1",
+    "@types/spotify-web-api-node": "^5.0.0",
     "axios": "^0.21.0",
     "dayjs": "^1.8.36",
     "es6-promise-pool": "^2.5.0",
