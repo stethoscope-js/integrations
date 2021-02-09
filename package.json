@@ -53,7 +53,7 @@
     "googleapis": "^67.0.0",
     "pocketcasts": "^1.0.1",
     "spotify-web-api-node": "^5.0.0",
-    "twitter-lite": "^0.14.0",
+    "twitter-lite": "^1.1.0",
     "wakatime-client": "^2.6.0"
   }
 }
