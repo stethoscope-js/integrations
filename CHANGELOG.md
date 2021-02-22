@@ -1,3 +1,15 @@
+## v2.2.15 (2021-02-22)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.15) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.14...v2.2.15) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.15) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.15.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.15.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`b25bfc7`](https://github.com/stethoscope-js/integrations/commit/b25bfc7)  Bump vsoch/pull-request-action from 1.0.13 to 1.0.14
+- [`92c2c95`](https://github.com/stethoscope-js/integrations/commit/92c2c95)  Bump pascalgn/automerge-action from v0.13.0 to v0.13.1
+- [`53e9568`](https://github.com/stethoscope-js/integrations/commit/53e9568)  Bump semantic-release from 17.3.8 to 17.3.9
+- [`fbdcc5e`](https://github.com/stethoscope-js/integrations/commit/fbdcc5e)  Bump vsoch/pull-request-action from 1.0.14 to 1.0.15
+- [`259e47a`](https://github.com/stethoscope-js/integrations/commit/259e47a)  Bump googleapis from 67.0.0 to 67.1.0
+
 ## v2.2.14 (2021-02-15)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.14) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.13...v2.2.14) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.14) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.14.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.14.tar.gz))
