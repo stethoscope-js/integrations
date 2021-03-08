@@ -1,3 +1,16 @@
+## v2.2.17 (2021-03-08)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.17) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.16...v2.2.17) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.17) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.17.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.17.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`97b990a`](https://github.com/stethoscope-js/integrations/commit/97b990a)  Bump @types/fs-extra from 9.0.7 to 9.0.8
+- [`2b3656d`](https://github.com/stethoscope-js/integrations/commit/2b3656d)  Bump googleapis from 67.1.0 to 67.1.1
+- [`6b2ce93`](https://github.com/stethoscope-js/integrations/commit/6b2ce93)  Bump semantic-release from 17.4.0 to 17.4.1
+- [`8dd372a`](https://github.com/stethoscope-js/integrations/commit/8dd372a)  Bump ts-jest from 26.5.2 to 26.5.3
+- [`f5c376f`](https://github.com/stethoscope-js/integrations/commit/f5c376f)  Bump @types/spotify-web-api-node from 5.0.0 to 5.0.1
+- [`bc125c3`](https://github.com/stethoscope-js/integrations/commit/bc125c3)  Bump typescript from 4.2.2 to 4.2.3
+
 ## v2.2.16 (2021-03-01)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.16) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.15...v2.2.16) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.16) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.16.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.16.tar.gz))
