@@ -1,3 +1,11 @@
+## v2.2.18 (2021-03-22)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.18) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.17...v2.2.18) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.18) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.18.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.18.tar.gz))
+
+### ⬆️ Dependency updates
+
+- [`c4e6050`](https://github.com/stethoscope-js/integrations/commit/c4e6050)  Bump @types/jest from 26.0.20 to 26.0.21
+
 ## v2.2.17 (2021-03-08)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.17) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.16...v2.2.17) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.17) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.17.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.17.tar.gz))
