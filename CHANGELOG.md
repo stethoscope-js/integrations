@@ -1,3 +1,15 @@
+## v2.3.0 (2022-11-15)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.3.0) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.18...v2.3.0) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.3.0) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.3.0.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.3.0.tar.gz))
+
+### ✨ New features
+
+- [`cf1125a`](https://github.com/stethoscope-js/integrations/commit/cf1125a)  Add daily full summary
+
+### ⬆️ Dependency updates
+
+- [`5a9f509`](https://github.com/stethoscope-js/integrations/commit/5a9f509)  Update all dependencies
+
 ## v2.2.18 (2021-03-22)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.2.18) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.17...v2.2.18) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.2.18) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.2.18.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.2.18.tar.gz))
