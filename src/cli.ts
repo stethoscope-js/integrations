@@ -13,7 +13,7 @@ import {
   Twitter,
   Wakatime,
 } from "./";
-import { zero } from "./common";
+import { sortObject, zero } from "./common";
 
 const INTEGRATIONS = [
   Clockify,
@@ -70,8 +70,8 @@ const cli = async () => {
             for (const month of months) {
               const file = join(".", "data", dir, "summary", "days", year, month);
               const data = (await readJson(file)) as Record<string, any>;
-              Object.values(data).forEach(([day, value]) => {
-                summary[`${zero(year)}-${zero(month)}-${zero(day)}`] = value;
+              Object.entries(data).forEach(([day, value]) => {
+                summary[`${zero(year)}-${zero(month.replace(".json", ""))}-${zero(day)}`] = value;
               });
             }
           }
@@ -80,7 +80,7 @@ const cli = async () => {
       if (Object.keys(summary).length)
         await writeFile(
           join(".", "data", dir, "summary", "days.json"),
-          JSON.stringify(summary, null, 2) + "\n"
+          JSON.stringify(sortObject(summary), null, 2) + "\n"
         );
     }
   } else {

@@ -15,3 +15,8 @@ export const write = async (name: string, contents: any) => {
 };
 
 export const zero = (num: string) => (parseInt(num) > 9 ? num : `0${num}`);
+
+export const sortObject = <T>(o: Record<string, T>) =>
+  Object.keys(o)
+    .sort()
+    .reduce((r, k) => ((r[k] = o[k]), r), {} as Record<string, T>);
