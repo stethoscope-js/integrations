@@ -1,3 +1,11 @@
+## v2.4.0 (2022-11-15)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.0) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.3.3...v2.4.0) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.0) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.0.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.0.tar.gz))
+
+### ✨ New features
+
+- [`f631afa`](https://github.com/stethoscope-js/integrations/commit/f631afa)  Export helper methods
+
 ## v2.3.3 (2022-11-15)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.3.3) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.3.2...v2.3.3) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.3.3) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.3.3.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.3.3.tar.gz))
