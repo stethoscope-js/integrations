@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-import { lstat, pathExists, readdir, readJson, writeFile } from "fs-extra";
-import { join } from "path";
 import {
   Clockify,
   Goodreads,
@@ -13,7 +11,6 @@ import {
   Twitter,
   Wakatime,
 } from "./";
-import { sortObject, zero } from "./common";
 
 const INTEGRATIONS = [
   Clockify,
@@ -52,37 +49,6 @@ const cli = async () => {
         integrationObject.summary();
       }
     });
-
-    const createdIntegrationData = await readdir(join(".", "data"));
-    for (const dir of createdIntegrationData) {
-      const summary: Record<string, any> = {};
-      if (
-        (await pathExists(join(".", "data", dir, "summary", "days"))) &&
-        (await lstat(join(".", "data", dir, "summary", "days"))).isDirectory()
-      ) {
-        const years = await readdir(join(".", "data", dir, "summary", "days"));
-        for (const year of years) {
-          if (
-            (await pathExists(join(".", "data", dir, "summary", "days", year))) &&
-            (await lstat(join(".", "data", dir, "summary", "days", year))).isDirectory()
-          ) {
-            const months = await readdir(join(".", "data", dir, "summary", "days", year));
-            for (const month of months) {
-              const file = join(".", "data", dir, "summary", "days", year, month);
-              const data = (await readJson(file)) as Record<string, any>;
-              Object.entries(data).forEach(([day, value]) => {
-                summary[`${zero(year)}-${zero(month.replace(".json", ""))}-${zero(day)}`] = value;
-              });
-            }
-          }
-        }
-      }
-      if (Object.keys(summary).length)
-        await writeFile(
-          join(".", "data", dir, "summary", "days.json"),
-          JSON.stringify(sortObject(summary), null, 2) + "\n"
-        );
-    }
   } else {
     throw new Error(`CLI command '${command}' not recognized`);
   }
