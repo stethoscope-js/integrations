@@ -1,3 +1,18 @@
+## v2.3.1 (2022-11-15)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.3.1) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.3.0...v2.3.1) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.3.1) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.3.1.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.3.1.tar.gz))
+
+### 🐛 Bug fixes
+
+- [`6a45124`](https://github.com/stethoscope-js/integrations/commit/6a45124)  Pin typescript to v4.8.4, microsoft/TypeScript#51420
+(Issues: [`microsoft/TypeScript#51420`](https://github.com/microsoft/TypeScript/issues/51420))
+
+### ⬆️ Dependency updates
+
+- [`99f2cfc`](https://github.com/stethoscope-js/integrations/commit/99f2cfc)  Bump actions/stale from 3 to 6
+- [`6b3b113`](https://github.com/stethoscope-js/integrations/commit/6b3b113)  Bump actions/cache from 2 to 3.0.11
+- [`e7a7e75`](https://github.com/stethoscope-js/integrations/commit/e7a7e75)   Pin typescript to 4.9.3
+
 ## v2.3.0 (2022-11-15)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.3.0) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.2.18...v2.3.0) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.3.0) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.3.0.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.3.0.tar.gz))
