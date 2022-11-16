@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@anandchowdhary/cosmic": "^1.0.1",
-    "@sindresorhus/slugify": "^1.1.0",
+    "@sindresorhus/slugify": "^2.1.1",
     "@toplast/lastfm": "^0.1.5",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^29.2.3",
