@@ -1,3 +1,18 @@
+## v2.4.1 (2025-08-28)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.1) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.0...v2.4.1) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.1) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.1.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.1.tar.gz))
+
+### 🐛 Bug fixes
+
+- [`ee52727`](https://github.com/stethoscope-js/integrations/commit/ee52727)  Add delay to legacy method in google-fit.ts
+
+### ⬆️ Dependency updates
+
+- [`5ca5667`](https://github.com/stethoscope-js/integrations/commit/5ca5667)  Bump actions/checkout from 2.3.4 to 3.1.0
+- [`2313838`](https://github.com/stethoscope-js/integrations/commit/2313838)  Bump actions/setup-node from 2.1.5 to 3.5.1
+- [`771bc9a`](https://github.com/stethoscope-js/integrations/commit/771bc9a)  Bump @sindresorhus/slugify from 1.1.0 to 1.1.2
+- [`fc1c6f5`](https://github.com/stethoscope-js/integrations/commit/fc1c6f5)  Bump axios from 1.1.3 to 1.2.0
+
 ## v2.4.0 (2022-11-15)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.0) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.3.3...v2.4.0) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.0) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.0.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.0.tar.gz))
