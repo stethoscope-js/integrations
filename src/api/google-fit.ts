@@ -88,6 +88,7 @@ export default class GoogleFit implements Integration {
     const startDate = dayjs(start);
     for await (const count of [...Array(dayjs().diff(startDate, "day")).keys()]) {
       const date = dayjs(startDate).add(count, "day");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await updateGoogleFitDailyData(date.toDate());
     }
     console.log("Done!");
