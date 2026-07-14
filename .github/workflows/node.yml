@@ -32,7 +32,28 @@ jobs:
         run: npm run build
       - name: Run tests
         run: npm run test
+      - name: Check if a release is required
+        id: release-check
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const semanticRelease = require("semantic-release");
+          semanticRelease({ dryRun: true, ci: false })
+            .then((result) => {
+              fs.appendFileSync(
+                process.env.GITHUB_OUTPUT,
+                `required=${Boolean(result)}\n`
+              );
+            })
+            .catch((error) => {
+              console.error(error);
+              process.exit(1);
+            });
+          NODE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       - name: Release
+        if: steps.release-check.outputs.required == 'true'
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
