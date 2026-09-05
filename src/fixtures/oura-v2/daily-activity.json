@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "id": "redacted-activity",
+      "day": "2026-09-02",
+      "steps": 8123,
+      "active_calories": 412,
+      "total_calories": 2011,
+      "high_activity_time": 600,
+      "medium_activity_time": 1200,
+      "low_activity_time": 1800,
+      "score": 86,
+      "contributors": {
+        "meet_daily_targets": 85
+      }
+    }
+  ],
+  "next_token": null
+}

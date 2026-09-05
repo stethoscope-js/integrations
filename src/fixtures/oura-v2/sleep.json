@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "id": "redacted-sleep-session",
+      "day": "2026-09-02",
+      "rem_sleep_duration": 5400,
+      "awake_time": 1200,
+      "deep_sleep_duration": 4800,
+      "total_sleep_duration": 25200,
+      "efficiency": 91,
+      "light_sleep_duration": 15000
+    }
+  ],
+  "next_token": null
+}

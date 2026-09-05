@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": "redacted-readiness",
+      "day": "2026-09-02",
+      "score": 78,
+      "contributors": {
+        "activity_balance": 77,
+        "hrv_balance": 79
+      }
+    }
+  ],
+  "next_token": null
+}
