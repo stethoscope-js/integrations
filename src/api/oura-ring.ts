@@ -18,20 +18,43 @@ interface CategoryData {
   [index: string]: number;
 }
 
+interface OuraDailyResponse {
+  data: Array<Record<string, any>>;
+  next_token: string | null;
+}
+
+const numberOrUndefined = (value: unknown) => (typeof value === "number" ? value : undefined);
+
+const activityTotal = (record: Record<string, any>) => {
+  const durations = [record.high_activity_time, record.medium_activity_time, record.low_activity_time].map(numberOrUndefined);
+  if (durations.some((duration) => duration === undefined)) return undefined;
+  return (durations as number[]).reduce((sum, duration) => sum + duration, 0);
+};
+
+const withLegacyFields = (record: Record<string, any>, fields: Record<string, unknown>) => ({
+  ...record,
+  ...Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined)),
+});
+
+const ouraApi = "https://api.ouraring.com/v2/usercollection";
+
+const getAccessToken = () => config("ouraAccessToken") || config("ouraPersonalAccessToken");
+
+const requestOptions = (accessToken: string, formattedDate?: string) => ({
+  headers: { Authorization: `Bearer ${accessToken}` },
+  ...(formattedDate ? { params: { start_date: formattedDate, end_date: formattedDate } } : {}),
+});
+
 const updateOuraDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
+  const accessToken = getAccessToken();
+  if (!accessToken) throw new Error("Oura: an OAuth access token is required");
+
   if (integrationConfig("oura-ring", "weight")) {
-    const {
-      data: healthData,
-    }: {
-      data: {
-        age: number;
-        weight: number;
-        height: number;
-        gender: string;
-        email: string;
-      };
-    } = await axios.get(`https://api.ouraring.com/v1/userinfo?access_token=${config("ouraPersonalAccessToken")}`);
+    const { data: healthData }: { data: { weight: number | null } } = await axios.get(
+      `${ouraApi}/personal_info`,
+      requestOptions(accessToken)
+    );
     await write(
       join(
         ".",
@@ -47,87 +70,76 @@ const updateOuraDailyData = async (date: Date) => {
     );
     console.log("Oura: Added summary data");
   }
+
+  const writeDailyCollection = async (
+    key: "sleep" | "readiness" | "activity",
+    endpoint: string,
+    category: string,
+    transform: (records: Array<Record<string, any>>) => Array<Record<string, any>> = (records) => records
+  ) => {
+    if (!integrationConfig("oura-ring", key)) return;
+    const { data }: { data: OuraDailyResponse } = await axios.get(
+      `${ouraApi}/${endpoint}`,
+      requestOptions(accessToken, formattedDate)
+    );
+    await write(
+      join(
+        ".",
+        "data",
+        category,
+        "daily",
+        dayjs(formattedDate).format("YYYY"),
+        dayjs(formattedDate).format("MM"),
+        dayjs(formattedDate).format("DD"),
+        "sessions.json"
+      ),
+      JSON.stringify(transform(data.data), null, 2)
+    );
+    console.log(`Oura: Added ${key} data`);
+  };
+
   if (integrationConfig("oura-ring", "sleep")) {
-    const {
-      data: sleepData,
-    }: {
-      data: {
-        sleep: Array<{ summary_date: string }>;
-      };
-    } = await axios.get(
-      `https://api.ouraring.com/v1/sleep?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-        "ouraPersonalAccessToken"
-      )}`
+    const { data: dailySleep }: { data: OuraDailyResponse } = await axios.get(
+      `${ouraApi}/daily_sleep`,
+      requestOptions(accessToken, formattedDate)
     );
-    console.log("Oura: Added sleep data");
-    await write(
-      join(
-        ".",
-        "data",
-        "oura-sleep",
-        "daily",
-        dayjs(formattedDate).format("YYYY"),
-        dayjs(formattedDate).format("MM"),
-        dayjs(formattedDate).format("DD"),
-        "sessions.json"
-      ),
-      JSON.stringify(sleepData.sleep, null, 2)
+    const sleepScores = new Map(dailySleep.data.map((record) => [record.day, numberOrUndefined(record.score)]));
+    await writeDailyCollection("sleep", "sleep", "oura-sleep", (records) =>
+      records.map((record) =>
+        withLegacyFields(record, {
+          rem: numberOrUndefined(record.rem_sleep_duration),
+          awake: numberOrUndefined(record.awake_time),
+          deep: numberOrUndefined(record.deep_sleep_duration),
+          duration: numberOrUndefined(record.total_sleep_duration),
+          light: numberOrUndefined(record.light_sleep_duration),
+          score: sleepScores.get(record.day),
+        })
+      )
     );
   }
-  if (integrationConfig("oura-ring", "readiness")) {
-    const {
-      data: readinessData,
-    }: {
-      data: {
-        readiness: Array<{ summary_date: string }>;
-      };
-    } = await axios.get(
-      `https://api.ouraring.com/v1/readiness?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-        "ouraPersonalAccessToken"
-      )}`
-    );
-    console.log("Oura: Added readiness data");
-    await write(
-      join(
-        ".",
-        "data",
-        "oura-readiness",
-        "daily",
-        dayjs(formattedDate).format("YYYY"),
-        dayjs(formattedDate).format("MM"),
-        dayjs(formattedDate).format("DD"),
-        "sessions.json"
-      ),
-      JSON.stringify(readinessData.readiness, null, 2)
-    );
-  }
-  if (integrationConfig("oura-ring", "activity")) {
-    const {
-      data: activityData,
-    }: {
-      data: {
-        activity: Array<{ summary_date: string }>;
-      };
-    } = await axios.get(
-      `https://api.ouraring.com/v1/activity?start=${formattedDate}&end=${formattedDate}&access_token=${config(
-        "ouraPersonalAccessToken"
-      )}`
-    );
-    console.log("Oura: Added activity data");
-    await write(
-      join(
-        ".",
-        "data",
-        "oura-activity",
-        "daily",
-        dayjs(formattedDate).format("YYYY"),
-        dayjs(formattedDate).format("MM"),
-        dayjs(formattedDate).format("DD"),
-        "sessions.json"
-      ),
-      JSON.stringify(activityData.activity, null, 2)
-    );
-  }
+  await writeDailyCollection("readiness", "daily_readiness", "oura-readiness", (records) =>
+    records.map((record) =>
+      withLegacyFields(record, {
+        score_activity_balance: numberOrUndefined(record.contributors?.activity_balance),
+        score_hrv_balance: numberOrUndefined(record.contributors?.hrv_balance),
+        score_previous_day: numberOrUndefined(record.contributors?.previous_day_activity),
+        score_previous_night: numberOrUndefined(record.contributors?.previous_night),
+        score_recovery_index: numberOrUndefined(record.contributors?.recovery_index),
+        score_resting_hr: numberOrUndefined(record.contributors?.resting_heart_rate),
+        score_sleep_balance: numberOrUndefined(record.contributors?.sleep_balance),
+        score_temperature: numberOrUndefined(record.contributors?.body_temperature),
+      })
+    )
+  );
+  await writeDailyCollection("activity", "daily_activity", "oura-activity", (records) =>
+    records.map((record) =>
+      withLegacyFields(record, {
+        cal_active: numberOrUndefined(record.active_calories),
+        cal_total: numberOrUndefined(record.total_calories),
+        total: activityTotal(record),
+      })
+    )
+  );
 };
 
 export default class OuraRing implements Integration {

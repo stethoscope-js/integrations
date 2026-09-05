@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "id": "redacted-sleep",
+      "day": "2026-09-02",
+      "score": 89,
+      "contributors": {
+        "deep_sleep": 84,
+        "efficiency": 91
+      }
+    }
+  ],
+  "next_token": null
+}
