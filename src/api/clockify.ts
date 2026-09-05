@@ -31,8 +31,8 @@ const getTimeData = async (date: Date) => {
       data: ClockifyResult;
     } = await axios.get(
       `https://api.clockify.me/api/v1/workspaces/${workspaceId}/user/${userId}/time-entries?start=${encodeURIComponent(
-        dayjs(date).toISOString()
-      )}&end=${encodeURIComponent(dayjs(date).toISOString())}`,
+        dayjs(date).startOf("day").toISOString()
+      )}&end=${encodeURIComponent(dayjs(date).endOf("day").toISOString())}`,
       {
         headers: { "X-Api-Key": apiKey },
       }
