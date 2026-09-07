@@ -1,0 +1,13 @@
+{
+  "recenttracks": {
+    "track": [
+      {
+        "artist": { "#text": "Fixture Artist", "mbid": "" },
+        "album": { "#text": "Fixture Album", "mbid": "" },
+        "name": "Fixture Track",
+        "date": { "uts": "1788775200", "#text": "07 Sep 2026, 10:00" },
+        "url": "https://www.last.fm/music/Fixture+Artist/_/Fixture+Track"
+      }
+    ]
+  }
+}
