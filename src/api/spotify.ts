@@ -17,7 +17,7 @@ type Optional<T extends object, K extends keyof T = keyof T> = Omit<T, K> & Part
 const api = new SpotifyAPI({
   clientId: config("spotifyClientId") || "example",
   clientSecret: config("spotifyClientSecret") || "example",
-  redirectUri: config("spotifyCallbackUrl") || "http://localhost:3000/callback",
+  redirectUri: config("spotifyCallbackUrl") || "http://127.0.0.1:3000/callback",
   accessToken: config("spotifyAccessToken") || "example",
   refreshToken: config("spotifyRefreshToken") || "example",
 });
