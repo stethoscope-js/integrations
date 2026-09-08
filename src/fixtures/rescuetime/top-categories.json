@@ -1,0 +1,11 @@
+{
+  "row_headers": [
+    "Date",
+    "Time Spent (seconds)",
+    "Number of People",
+    "Category",
+    "Productivity",
+    "Productivity Percentage"
+  ],
+  "rows": [[1788825600, 3600, 1, "Fixture Category", 2, 100]]
+}
