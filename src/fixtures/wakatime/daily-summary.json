@@ -1,0 +1,17 @@
+{
+  "start": "2026-09-10T12:00:00Z",
+  "data": [
+    {
+      "grand_total": {
+        "total_seconds": 3600,
+        "text": "1 hr"
+      },
+      "categories": [
+        {
+          "name": "Coding",
+          "total_seconds": 3600
+        }
+      ]
+    }
+  ]
+}
