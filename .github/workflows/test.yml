@@ -21,8 +21,25 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
-        run: npm ci
+        run: npx --yes npm@11.19.1 ci
       - name: Build TypeScript
         run: npm run build
       - name: Run tests
         run: npm run test
+      - name: Validate release modules
+        run: |
+          node <<'NODE'
+          const semanticRelease = require("semantic-release").default;
+          const config = require("./release.config");
+          if (typeof semanticRelease !== "function") {
+            throw new TypeError("semantic-release JS API is unavailable");
+          }
+          Promise.all(
+            config.plugins.map((plugin) =>
+              import(Array.isArray(plugin) ? plugin[0] : plugin)
+            )
+          ).catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
