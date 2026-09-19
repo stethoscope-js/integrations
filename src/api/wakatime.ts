@@ -1,24 +1,27 @@
 import { config, cosmicSync } from "@anandchowdhary/cosmic";
+import axios from "axios";
 import dayjs from "dayjs";
 import week from "dayjs/plugin/weekOfYear";
 import { lstat, pathExists, readdir, readJson } from "fs-extra";
 import { join } from "path";
-import { WakaTimeClient } from "wakatime-client";
 import { integrationConfig, write } from "../common";
 import type { Integration } from "../integration";
 dayjs.extend(week);
 cosmicSync("stethoscope");
 
-const client = new WakaTimeClient(config("wakatimeApiKey") || "example");
+const apiKey = config("wakatimeApiKey") || "example";
 
 const updateWakatimeDailyData = async (date: Date) => {
   const formattedDate = dayjs(date).format("YYYY-MM-DD");
   console.log("WakaTime: Adding data for", formattedDate);
   if (integrationConfig("wakatime", "summary")) {
-    const summary = await client.getMySummary({
-      dateRange: {
-        startDate: formattedDate,
-        endDate: formattedDate,
+    const { data: summary } = await axios.get("https://wakatime.com/api/v1/users/current/summaries", {
+      headers: { Authorization: `Basic ${Buffer.from(apiKey).toString("base64")}` },
+      params: {
+        start: formattedDate,
+        end: formattedDate,
+        project: null,
+        branches: "",
       },
     });
     if (summary.data.length) {
