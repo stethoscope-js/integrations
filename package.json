@@ -51,7 +51,7 @@
     "es6-promise-pool": "^2.5.0",
     "fs-extra": "^11.4.0",
     "goodreads-api-node": "0.0.12",
-    "googleapis": "^144.0.0",
+    "googleapis": "^181.0.0",
     "pocketcasts": "^1.0.1",
     "spotify-web-api-node": "^5.0.2",
     "twitter-lite": "^1.1.0"
