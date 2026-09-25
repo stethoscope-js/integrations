@@ -1,3 +1,21 @@
+## v2.4.2 (2026-09-25)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.2) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.1...v2.4.2) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.2) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.2.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.2.tar.gz))
+
+### 🐛 Bug fixes
+
+- [`325b489`](https://github.com/stethoscope-js/integrations/commit/325b489)  Migrate Oura integration to V2 (#465)
+(Issues: [`#465`](https://github.com/stethoscope-js/integrations/issues/465))- [`9ff66d1`](https://github.com/stethoscope-js/integrations/commit/9ff66d1)  Fix Clockify daily time-entry range (#466)
+(Issues: [`#466`](https://github.com/stethoscope-js/integrations/issues/466))- [`3a931ec`](https://github.com/stethoscope-js/integrations/commit/3a931ec)  Use loopback IP for Spotify callback (#467)
+(Issues: [`#467`](https://github.com/stethoscope-js/integrations/issues/467))
+
+### ⬆️ Dependency updates
+
+- [`b4ed95e`](https://github.com/stethoscope-js/integrations/commit/b4ed95e)  Bump actions/setup-node from 3.5.1 to 7.0.0
+- [`764f401`](https://github.com/stethoscope-js/integrations/commit/764f401)  Update actions/cache to v6 (#459)
+(Issues: [`#459`](https://github.com/stethoscope-js/integrations/issues/459))- [`1b2f6b9`](https://github.com/stethoscope-js/integrations/commit/1b2f6b9)  Update actions/cache to v6.1.0 (#473)
+(Issues: [`#473`](https://github.com/stethoscope-js/integrations/issues/473))
+
 ## v2.4.1 (2025-08-28)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.1) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.0...v2.4.1) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.1) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.1.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.1.tar.gz))
