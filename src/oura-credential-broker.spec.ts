@@ -62,6 +62,58 @@ describe("unwired Oura credential broker", () => {
     expect(h.events).toEqual(["lease", "load", "read"]);
   });
 
+  test("rechecks expiry after waiting for a lease before reading provider data", async () => {
+    jest.useFakeTimers().setSystemTime(new Date("2026-10-02T12:00:00Z"));
+    try {
+      const h = harness();
+      h.setState({ ...current, expiresAt: new Date(now.getTime() + 90_000).toISOString() });
+      h.store.withLease = async (_accountId, callback) => {
+        jest.setSystemTime(new Date(now.getTime() + 35_000));
+        return callback({ fence: "lease-1" });
+      };
+      const result = await withOuraAccessToken("private-account-key", h.store, h.refresh, h.read);
+      expect(result).toBe(replacement.accessToken);
+      expect(h.events).toEqual(["load", "refresh", "replace", "read"]);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  test("rejects a replacement that expires during a slow refresh before persistence or data read", async () => {
+    jest.useFakeTimers().setSystemTime(now);
+    try {
+      const h = harness();
+      h.refresh.mockImplementation(async () => {
+        jest.setSystemTime(new Date(now.getTime() + 3_600_000));
+        return replacement;
+      });
+      await expect(withOuraAccessToken("private-account-key", h.store, h.refresh, h.read)).rejects.toMatchObject({ code: "invalid_replacement" });
+      expect(h.refresh).toHaveBeenCalledTimes(1);
+      expect(h.events).toEqual(["lease", "load"]);
+      expect(h.read).not.toHaveBeenCalled();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  test("does not read an access token that aged out while the store released its lease", async () => {
+    jest.useFakeTimers().setSystemTime(now);
+    try {
+      const h = harness();
+      h.setState({ ...current, expiresAt: new Date(now.getTime() + 120_000).toISOString() });
+      h.store.withLease = async (_accountId, callback) => {
+        const credential = await callback({ fence: "lease-1" });
+        jest.setSystemTime(new Date(now.getTime() + 90_000));
+        return credential;
+      };
+      await expect(withOuraAccessToken("private-account-key", h.store, h.refresh, h.read)).rejects.toMatchObject({ code: "credential_expired" });
+      expect(h.refresh).not.toHaveBeenCalled();
+      expect(h.read).not.toHaveBeenCalled();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
   test("rotates once and commits before the first read", async () => {
     const h = harness();
     expect(await h.run()).toBe(replacement.accessToken);
