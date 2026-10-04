@@ -28,6 +28,7 @@ export type OuraCredentialFailure =
   | "refresh_failed"
   | "authorization_exchange_failed"
   | "invalid_replacement"
+  | "credential_expired"
   | "stale_generation"
   | "data_failed";
 
@@ -52,11 +53,12 @@ export async function withOuraAccessToken<T>(
   store: OuraCredentialStore,
   refresh: (refreshToken: string) => Promise<OuraTokens>,
   read: (accessToken: string) => Promise<T>,
-  now: Date = new Date()
+  now: Date | (() => Date) = () => new Date()
 ): Promise<T> {
-  let accessToken: string;
+  const clock = typeof now === "function" ? now : () => now;
+  let credential: Pick<OuraTokens, "accessToken" | "expiresAt">;
   try {
-    accessToken = await store.withLease(accountId, async (lease) => {
+    credential = await store.withLease(accountId, async (lease) => {
       let stored: StoredOuraTokens | null;
       try {
         stored = await store.load(accountId, lease);
@@ -67,7 +69,10 @@ export async function withOuraAccessToken<T>(
         !stored || !validToken(stored.generation) || !validToken(stored.accessToken) ||
         !validToken(stored.refreshToken) || !validExpiry(stored.expiresAt)
       ) throw new OuraCredentialError("invalid_stored_credential");
-      if (Date.parse(stored.expiresAt) > now.getTime() + 60_000) return stored.accessToken;
+      const observedAt = clock().getTime();
+      if (Date.parse(stored.expiresAt) > observedAt + 60_000) {
+        return { accessToken: stored.accessToken, expiresAt: stored.expiresAt };
+      }
 
       let next: OuraTokens;
       try {
@@ -77,7 +82,7 @@ export async function withOuraAccessToken<T>(
       }
       if (
         !next || !validToken(next.accessToken) || !validToken(next.refreshToken) ||
-        !validExpiry(next.expiresAt) || Date.parse(next.expiresAt) <= now.getTime() + 60_000
+        !validExpiry(next.expiresAt) || Date.parse(next.expiresAt) <= clock().getTime() + 60_000
       ) throw new OuraCredentialError("invalid_replacement");
       let committed: boolean;
       try {
@@ -86,14 +91,17 @@ export async function withOuraAccessToken<T>(
         throw new OuraCredentialError("store_failed");
       }
       if (!committed) throw new OuraCredentialError("stale_generation");
-      return next.accessToken;
+      return { accessToken: next.accessToken, expiresAt: next.expiresAt };
     });
   } catch (error) {
     if (error instanceof OuraCredentialError) throw error;
     throw new OuraCredentialError("store_failed");
   }
+  if (Date.parse(credential.expiresAt) <= clock().getTime() + 60_000) {
+    throw new OuraCredentialError("credential_expired");
+  }
   try {
-    return await read(accessToken);
+    return await read(credential.accessToken);
   } catch {
     throw new OuraCredentialError("data_failed");
   }
