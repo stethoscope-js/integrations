@@ -1,3 +1,12 @@
+## v2.4.3 (2026-10-04)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.3) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.2...v2.4.3) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.3) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.3.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.3.tar.gz))
+
+### 🐛 Bug fixes
+
+- [`50dd0e4`](https://github.com/stethoscope-js/integrations/commit/50dd0e4)  Recheck Oura token expiry after lease waits (#486)
+(Issues: [`#486`](https://github.com/stethoscope-js/integrations/issues/486))
+
 ## v2.4.2 (2026-09-25)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.2) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.1...v2.4.2) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.2) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.2.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.2.tar.gz))
