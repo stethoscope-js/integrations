@@ -63,7 +63,7 @@ describe("unwired Oura authorization contract", () => {
     const attempt = beginOuraAuthorization(config);
     const store = pending(attempt);
     expect(await consumeOuraAuthorizationCallback(callback(attempt), "owner-session", store, now)).toEqual({
-      code: "private-code", codeVerifier: attempt.codeVerifier, scopes: ["personal", "daily"],
+      code: "private-code", codeVerifier: attempt.codeVerifier, redirectUri: config.redirectUri, scopes: ["personal", "daily"],
     });
     expect(store.consume).toHaveBeenCalledWith("owner-session", attempt.state);
     await rejected(() => consumeOuraAuthorizationCallback(callback(attempt), "owner-session", store, now), "invalid_callback");

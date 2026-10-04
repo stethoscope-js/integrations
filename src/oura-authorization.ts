@@ -73,7 +73,7 @@ export async function consumeOuraAuthorizationCallback(
   sessionId: string,
   pending: PendingOuraAuthorization,
   now: Date = new Date()
-): Promise<{ code: string; codeVerifier: string; scopes: OuraScope[] }> {
+): Promise<{ code: string; codeVerifier: string; redirectUri: string; scopes: OuraScope[] }> {
   let callback: URL;
   try {
     callback = new URL(callbackUrl);
@@ -120,5 +120,5 @@ export async function consumeOuraAuthorizationCallback(
     granted.length !== attempt.scopes.length ||
     attempt.scopes.some((scope) => !granted.includes(scope))
   ) throw new OuraAuthorizationError("invalid_callback");
-  return { code, codeVerifier: attempt.codeVerifier, scopes: [...attempt.scopes] };
+  return { code, codeVerifier: attempt.codeVerifier, redirectUri: attempt.redirectUri, scopes: [...attempt.scopes] };
 }

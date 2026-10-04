@@ -26,6 +26,7 @@ export type OuraCredentialFailure =
   | "store_failed"
   | "invalid_stored_credential"
   | "refresh_failed"
+  | "authorization_exchange_failed"
   | "invalid_replacement"
   | "stale_generation"
   | "data_failed";
