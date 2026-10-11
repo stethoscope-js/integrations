@@ -1,3 +1,12 @@
+## v2.4.4 (2026-10-11)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.4) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.3...v2.4.4) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.4) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.4.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.4.tar.gz))
+
+### 🔒 Security issues
+
+- [`a7db6fe`](https://github.com/stethoscope-js/integrations/commit/a7db6fe)  Upgrade axios to 1.20.0 and pin @toplast/lastfm to axios 1.x (#487)
+(Issues: [`#487`](https://github.com/stethoscope-js/integrations/issues/487))
+
 ## v2.4.3 (2026-10-04)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.3) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.2...v2.4.3) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.3) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.3.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.3.tar.gz))
