@@ -36,7 +36,7 @@
     "semantic-release": "^25.0.9",
     "semantic-release-gitmoji": "^1.6.9",
     "ts-jest": "^29.4.12",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@anandchowdhary/cosmic": "^1.0.1",
