@@ -1,3 +1,25 @@
+## v2.4.5 (2026-10-15)
+
+[📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.5) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.4...v2.4.5) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.5) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.5.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.5.tar.gz))
+
+### 🔒 Security issues
+
+- [`c44ca9b`](https://github.com/stethoscope-js/integrations/commit/c44ca9b)  Override jsprim 2.0.2 to resolve prototype-pollution advisory (#495)
+(Issues: [`#495`](https://github.com/stethoscope-js/integrations/issues/495))
+
+### ⬆️ Dependency updates
+
+- [`0316f6a`](https://github.com/stethoscope-js/integrations/commit/0316f6a)  Bump ts-jest from 29.4.12 to 29.4.14 (#479)
+(Issues: [`#479`](https://github.com/stethoscope-js/integrations/issues/479))- [`58168ee`](https://github.com/stethoscope-js/integrations/commit/58168ee)  Bump @semantic-release/npm from 13.1.5 to 13.2.0 (#480)
+(Issues: [`#480`](https://github.com/stethoscope-js/integrations/issues/480))- [`3105581`](https://github.com/stethoscope-js/integrations/commit/3105581)  Update actions/stale to v11.0.0 (SHA-pinned) (#488)
+(Issues: [`#488`](https://github.com/stethoscope-js/integrations/issues/488))- [`a17402b`](https://github.com/stethoscope-js/integrations/commit/a17402b)  Bump actions/setup-node from 7.0.0 to 7.1.0 (#489)
+(Issues: [`#489`](https://github.com/stethoscope-js/integrations/issues/489))- [`a709c90`](https://github.com/stethoscope-js/integrations/commit/a709c90)  Bump @types/node from 24.13.6 to 26.6.5 (#490)
+(Issues: [`#490`](https://github.com/stethoscope-js/integrations/issues/490))- [`bb95ba1`](https://github.com/stethoscope-js/integrations/commit/bb95ba1)  Bump googleapis from 144.0.0 to 185.0.0 (#492)
+(Issues: [`#492`](https://github.com/stethoscope-js/integrations/issues/492))- [`0b53bf6`](https://github.com/stethoscope-js/integrations/commit/0b53bf6)  Bump jest from 29.7.0 to 30.5.2 and @types/jest (#491)
+(Issues: [`#491`](https://github.com/stethoscope-js/integrations/issues/491))- [`4cd8ff5`](https://github.com/stethoscope-js/integrations/commit/4cd8ff5)  Bump fs-extra from 11.4.0 to 11.4.1 (#493)
+(Issues: [`#493`](https://github.com/stethoscope-js/integrations/issues/493))- [`00f01fe`](https://github.com/stethoscope-js/integrations/commit/00f01fe)  Bump @semantic-release/github from 12.0.9 to 12.0.10 (#494)
+(Issues: [`#494`](https://github.com/stethoscope-js/integrations/issues/494))
+
 ## v2.4.4 (2026-10-11)
 
 [📝 Release notes](https://github.com/stethoscope-js/integrations/releases/tag/v2.4.4) · [💻 Compare](https://github.com/stethoscope-js/integrations/compare/v2.4.3...v2.4.4) · [🔖 Tag](https://github.com/stethoscope-js/integrations/tree/v2.4.4) · 🗄️ Archive ([zip](https://github.com/stethoscope-js/integrations/archive/v2.4.4.zip) · [tar.gz](https://github.com/stethoscope-js/integrations/archive/v2.4.4.tar.gz))
