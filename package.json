@@ -58,6 +58,7 @@
   "overrides": {
     "@toplast/lastfm": {
       "axios": "^1.20.0"
-    }
+    },
+    "jsprim": "2.0.2"
   }
 }
