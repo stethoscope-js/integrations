@@ -1,0 +1,46 @@
+{
+  "library": {
+    "body": {
+      "items": [
+        {
+          "added_at": "2026-09-01T08:30:00.000Z",
+          "track": {
+            "name": "Fixture Saved Track",
+            "id": "fixture-saved-id",
+            "popularity": 17,
+            "duration_ms": 90000,
+            "external_urls": { "spotify": "https://example.invalid/saved" },
+            "artists": [{ "name": "Fixture Artist" }],
+            "album": {
+              "name": "Fixture Album",
+              "album_type": "single",
+              "id": "fixture-album-id",
+              "available_markets": ["US"],
+              "external_urls": { "spotify": "https://example.invalid/album" }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "topTrack": {
+    "name": "Fixture Top Track",
+    "id": "fixture-top-id",
+    "popularity": 25,
+    "available_markets": ["US"],
+    "artists": [{ "name": "Fixture Artist" }],
+    "album": {
+      "name": "Fixture Top Album",
+      "album_type": "album",
+      "id": "fixture-top-album-id"
+    }
+  },
+  "topArtist": {
+    "name": "Fixture Top Artist",
+    "id": "fixture-artist-id",
+    "followers": { "total": 4 },
+    "popularity": 33,
+    "external_urls": { "spotify": "https://example.invalid/artist" },
+    "genres": ["fixture-genre"]
+  }
+}
