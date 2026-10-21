@@ -1,0 +1,24 @@
+{
+  "body": {
+    "items": [
+      {
+        "played_at": "2026-09-07T12:00:00.000Z",
+        "track": {
+          "name": "Fixture Track",
+          "id": "fixture-track-id",
+          "duration_ms": 123000,
+          "popularity": 42,
+          "external_urls": { "spotify": "https://example.invalid/track" },
+          "artists": [{ "name": "Fixture Artist" }],
+          "album": {
+            "name": "Fixture Album",
+            "album_type": "album",
+            "available_markets": ["US"],
+            "external_urls": { "spotify": "https://example.invalid/album" },
+            "id": "fixture-album-id"
+          }
+        }
+      }
+    ]
+  }
+}
